@@ -41,8 +41,9 @@ public class Sesion {
         String usuario;
         String contrasenia;
         int nip;
+        int numeroIntentos = 4;
 
-        while (true) {
+        while (numeroIntentos > 0) {
             System.out.println("INICIAR SESION.");
 
             System.out.print("Usuario: ");
@@ -58,11 +59,16 @@ public class Sesion {
             if (!usuario.equals(getUsuario()) ||
                     !contrasenia.equals(getContrasenia()) ||
                     nip != getNip()) {
-                System.out.println("Por favor ingresa los datos correctos.\n");
+                System.out.println("Por favor ingresa los datos correctos, te quedan " + (numeroIntentos - 1) + " intentos.\n");
+                numeroIntentos--;
             } else {
                 System.out.println("Bienvenido " + usuario + "!\n");
                 break;
             }
+        }
+
+        if (numeroIntentos == 0){
+            System.out.println("Alcalzaste el numero maximo de intentos.\n");
         }
     }
 }
