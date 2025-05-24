@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Sesion {
     private String usuario;
     private String contrasenia;
@@ -35,6 +37,32 @@ public class Sesion {
     }
 
     public void iniciarSesion(){
+        Scanner entrada = new Scanner(System.in);
+        String usuario;
+        String contrasenia;
+        int nip;
 
+        while (true) {
+            System.out.println("INICIAR SESION.");
+
+            System.out.print("Usuario: ");
+            usuario = entrada.nextLine();
+
+            System.out.print("Contraseña: ");
+            contrasenia = entrada.nextLine();
+
+            System.out.print("NIP: ");
+            nip = entrada.nextInt();
+            entrada.nextLine();
+
+            if (!usuario.equals(getUsuario()) ||
+                    !contrasenia.equals(getContrasenia()) ||
+                    nip != getNip()) {
+                System.out.println("Por favor ingresa los datos correctos.\n");
+            } else {
+                System.out.println("Bienvenido " + usuario + "!\n");
+                break;
+            }
+        }
     }
 }
