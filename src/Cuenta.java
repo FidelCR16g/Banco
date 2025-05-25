@@ -8,14 +8,14 @@ public abstract class Cuenta {
 
     protected String numeroCuenta;
     protected TipoCuenta tipoCuenta;
-    protected double monto;
+    protected double saldo;
 
     public Cuenta(){}
 
     public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double monto) {
         this.numeroCuenta = numeroCuenta;
         this.tipoCuenta = tipoCuenta;
-        this.monto = monto;
+        this.saldo = saldo;
     }
 
     public abstract void mostrarCuenta();
@@ -23,10 +23,14 @@ public abstract class Cuenta {
     public abstract void consultarSaldo();
 
     public double retirar(double monto) {
-
+        if (saldo < monto) {
+            throw new SaldoInsuficienteException("Saldo insuficiente");
+        }
+        saldo -= monto;
+        return saldo;
     }
 
     public double depositar(double monto) {
-
+        return saldo;
     }
 }
