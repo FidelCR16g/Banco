@@ -20,10 +20,6 @@ public abstract class Cuenta {
         this.saldo = saldo;
     }
 
-    public abstract void mostrarCuenta();
-
-    public abstract void consultarSaldo();
-
     public void retirar() {
         Scanner scanner = new Scanner(System.in);
         double monto;
@@ -46,4 +42,8 @@ public abstract class Cuenta {
         saldo += monto;
         System.out.println("Tu saldo actual es " + saldo);
     }
+
+    public abstract void mostrarCuenta();
+
+    public abstract void consultarSaldo();
 }
