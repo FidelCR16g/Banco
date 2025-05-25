@@ -14,7 +14,7 @@ public abstract class Cuenta {
 
     public Cuenta(){}
 
-    public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double monto) {
+    public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double saldo) {
         this.numeroCuenta = numeroCuenta;
         this.tipoCuenta = tipoCuenta;
         this.saldo = saldo;
