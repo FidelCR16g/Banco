@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public abstract class Cuenta {
     public enum TipoCuenta {
         INVERSION,
@@ -22,15 +24,26 @@ public abstract class Cuenta {
 
     public abstract void consultarSaldo();
 
-    public double retirar(double monto) {
-        if (saldo < monto) {
-            throw new SaldoInsuficienteException("Saldo insuficiente");
+    public void retirar() {
+        Scanner scanner = new Scanner(System.in);
+        double monto;
+
+        while (true) {
+            System.out.println("Ingresa el monto a retirar: ");
+            monto = scanner.nextDouble();
+
+            if (saldo < monto) {
+                System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
+            } else {
+                saldo -= monto;
+                System.out.println("Tu saldo actual es " + saldo);
+                break;
+            }
         }
-        saldo -= monto;
-        return saldo;
     }
 
-    public double depositar(double monto) {
-        return saldo;
+    public void depositar(double monto) {
+        saldo += monto;
+        System.out.println("Tu saldo actual es " + saldo);
     }
 }
