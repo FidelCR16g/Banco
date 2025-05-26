@@ -3,8 +3,8 @@ public abstract class Corriente extends Cuenta {
 
     public Corriente() {}
 
-    public Corriente(String numeroCuenta, double saldo, double saldoActual) {
-        super(numeroCuenta, TipoCuenta.CORRIENTE, saldo);
+    public Corriente(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente, double saldoActual) {
+        super(numeroCuenta, TipoCuenta.CORRIENTE, saldo, cliente);
         this.saldoActual = saldoActual;
     }
 

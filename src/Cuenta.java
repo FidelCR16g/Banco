@@ -11,22 +11,31 @@ public abstract class Cuenta {
     protected String numeroCuenta;
     protected TipoCuenta tipoCuenta;
     protected double saldo;
+    private Cliente cliente;
 
     public Cuenta(){}
 
-    public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double saldo) {
+    public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente) {
         this.numeroCuenta = numeroCuenta;
         this.tipoCuenta = tipoCuenta;
         this.saldo = saldo;
+        this.cliente = cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public void retirar() {
         Scanner scanner = new Scanner(System.in);
-        double monto;
 
         while (true) {
             System.out.println("Ingresa el monto a retirar: ");
-            monto = scanner.nextDouble();
+            double monto = scanner.nextDouble();
 
             if (saldo < monto) {
                 System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
@@ -38,7 +47,11 @@ public abstract class Cuenta {
         }
     }
 
-    public void depositar(double monto) {
+    public void depositar() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingresa el monto a depositar: ");
+        double monto = scanner.nextDouble();
+
         saldo += monto;
         System.out.println("Tu saldo actual es " + saldo);
     }
