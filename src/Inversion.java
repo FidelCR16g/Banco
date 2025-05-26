@@ -16,7 +16,7 @@ public abstract class Inversion extends Cuenta {
 
     @Override
     public void mostrarCuenta() {
-
+        System.out.println("Cuenta de Inversión" + "\nNúmero de cuenta: " + numeroCuenta + "\nSaldo: " + saldo + "\nGanancia: " + ganancia + "\nRendimiento mensual: " + rendimientoMensual);
     }
 
     @Override

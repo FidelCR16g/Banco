@@ -18,7 +18,7 @@ public abstract class Credito extends Cuenta {
 
     @Override
     public void mostrarCuenta() {
-
+        System.out.println("Cuenta de Crédito" + "\nNúmero de cuenta: " + numeroCuenta + "\nSaldo: " + saldo + "\nLímite establecido: " + limiteEstablecido);
     }
 
     @Override

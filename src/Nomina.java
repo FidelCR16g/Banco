@@ -18,7 +18,7 @@ public abstract class Nomina extends Cuenta {
 
     @Override
     public void mostrarCuenta() {
-
+        System.out.println("Cuenta de Nómina" + "\nNúmero de cuenta: " + numeroCuenta + "\nSaldo: " + saldo + "\nEmpleador: " + empleadorDeposito + "\nLugar de trabajo: " + lugarTrabajo + "\nSalario: " + salario);
     }
 
     @Override

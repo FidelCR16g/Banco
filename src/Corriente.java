@@ -12,9 +12,10 @@ public abstract class Corriente extends Cuenta {
 
     }
 
+    //Dudas con saldo y saldoActual
     @Override
     public void mostrarCuenta() {
-
+        System.out.println("Cuenta Corriente" + "\nNúmero de cuenta: " + numeroCuenta + "\nSaldo: " + saldo + "\nSaldo actual: " + saldoActual);
     }
 
     @Override
