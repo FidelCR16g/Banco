@@ -13,7 +13,7 @@ public class Nomina extends Cuenta {
     }
 
     public void mostrarSalario() {
-
+        System.out.println("Tu salario es: " + salario);
     }
 
     @Override
