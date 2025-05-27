@@ -3,25 +3,27 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Cliente {
-    private String usuario;
-    private String contrasenia;
     private String nombreC;
     private String ine;
     private String fechaNacimiento;
     private String lugarNacimiento;
     private String telefonoC;
     private String correoC;
+    private String usuario;
+    private String contrasenia;
     private List<Cuenta> cuentas;
 
     public Cliente() {}
 
-    public Cliente(String nombreC, String ine, String fechaNacimiento, String lugarNacimiento, String telefonoC, String correoC) {
+    public Cliente(String nombreC, String ine, String fechaNacimiento, String lugarNacimiento, String telefonoC, String correoC, String usuario, String contrasenia) {
         this.nombreC = nombreC;
         this.ine = ine;
         this.fechaNacimiento = fechaNacimiento;
         this.lugarNacimiento = lugarNacimiento;
         this.telefonoC = telefonoC;
         this.correoC = correoC;
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
         this.cuentas = new ArrayList<>();
     }
 
@@ -65,7 +67,6 @@ public class Cliente {
         Scanner entrada = new Scanner(System.in);
         String usuario;
         String contrasenia;
-        int nip;
         int numeroIntentos = 4;
 
         while (numeroIntentos > 0) {
@@ -88,7 +89,7 @@ public class Cliente {
         }
 
         if (numeroIntentos == 0){
-            System.out.println("Alcalzaste el numero maximo de intentos.\n");
+            System.out.println("Alcanzaste el número máximo de intentos.\n");
         }
     }
 
