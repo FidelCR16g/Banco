@@ -17,9 +17,4 @@ public class Corriente extends Cuenta {
     public void mostrarCuenta() {
         System.out.println("Cuenta Corriente" + "\nNúmero de cuenta: " + numeroCuenta + "\nSaldo: " + saldo + "\nSaldo actual: " + saldoActual);
     }
-
-    @Override
-    public void consultarSaldo() {
-
-    }
 }

@@ -18,9 +18,4 @@ public class Inversion extends Cuenta {
     public void mostrarCuenta() {
         System.out.println("Cuenta de Inversión" + "\nNúmero de cuenta: " + numeroCuenta + "\nSaldo: " + saldo + "\nGanancia: " + ganancia + "\nRendimiento mensual: " + rendimientoMensual);
     }
-
-    @Override
-    public void consultarSaldo() {
-
-    }
 }

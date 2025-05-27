@@ -37,11 +37,14 @@ public abstract class Cuenta {
             System.out.println("Ingresa el monto a retirar: ");
             double monto = scanner.nextDouble();
 
-            if (saldo < monto) {
+            if (monto < 0) {
+                System.out.println("El monto a retirar debe ser una cantidad positiva");
+            } else if (monto > 9000) {
+                System.out.println("No puedes retirar una cantidad mayor a 9000");
+            } else if (saldo < monto) {
                 System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
             } else {
                 saldo -= monto;
-                System.out.println("Tu saldo actual es " + saldo);
                 break;
             }
         }
@@ -49,14 +52,25 @@ public abstract class Cuenta {
 
     public void depositar() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingresa el monto a depositar: ");
-        double monto = scanner.nextDouble();
 
-        saldo += monto;
-        System.out.println("Tu saldo actual es " + saldo);
+        while (true) {
+            System.out.println("Ingresa el monto a depositar: ");
+            double monto = scanner.nextDouble();
+
+            if (monto < 0) {
+                System.out.println("El monto a depositar debe ser una cantidad positiva");
+            } else if (saldo < monto) {
+                System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
+            } else {
+                saldo += monto;
+                break;
+            }
+        }
+    }
+
+    public void consultarSaldo() {
+        System.out.println("Tu saldo actual es: " + saldo);
     }
 
     public abstract void mostrarCuenta();
-
-    public abstract void consultarSaldo();
 }
