@@ -4,7 +4,6 @@ public abstract class Cuenta {
     public enum TipoCuenta {
         INVERSION,
         NOMINA,
-        CORRIENTE,
         CREDITO
     }
 
