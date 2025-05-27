@@ -11,7 +11,6 @@ public class Inversion extends Cuenta {
     }
 
     public void mostrarGanancia() {
-
     }
 
     @Override
