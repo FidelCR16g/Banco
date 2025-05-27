@@ -1,4 +1,4 @@
-public abstract class Corriente extends Cuenta {
+public class Corriente extends Cuenta {
     private double saldoActual;
 
     public Corriente() {}

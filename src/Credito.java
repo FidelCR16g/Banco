@@ -1,4 +1,4 @@
-public abstract class Credito extends Cuenta {
+public class Credito extends Cuenta {
     private String limiteEstablecido;
 
     public Credito() {}

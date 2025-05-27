@@ -1,4 +1,4 @@
-public abstract class Inversion extends Cuenta {
+public class Inversion extends Cuenta {
     private double ganancia;
     private double rendimientoMensual;
 

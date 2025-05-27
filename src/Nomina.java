@@ -1,4 +1,4 @@
-public abstract class Nomina extends Cuenta {
+public class Nomina extends Cuenta {
     private String empleadorDeposito;
     private String lugarTrabajo;
     private double salario;
