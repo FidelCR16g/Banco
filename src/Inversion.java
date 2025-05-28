@@ -12,8 +12,10 @@ public class Inversion extends Cuenta {
     private double saldoInicial;
     private int mesesInvertidos;
 
+    //Constructor vacío
     public Inversion() {}
 
+    //Constructor con parámetros
     public Inversion(String numeroCuenta, double saldoInicial, int nip, double rendimientoMensual, int mesesInvertidos, Cliente cliente) {
         super(numeroCuenta, TipoCuenta.INVERSION, saldoInicial, nip, cliente);
         this.saldoInicial = saldoInicial;
@@ -21,6 +23,7 @@ public class Inversion extends Cuenta {
         this.mesesInvertidos = mesesInvertidos;
     }
 
+    //Métodos propios
     public double calcularGanancia() {
         double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
         //La función Math.pow(a, b) eleva un número 'a' a la potencia 'b'
@@ -29,7 +32,7 @@ public class Inversion extends Cuenta {
 
     public void mostrarGanancia() {
         double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
-        double ganancia = saldoFinal - saldoInicial;
+        ganancia = saldoFinal - saldoInicial;
 
         System.out.printf("Saldo inicial: $%.2f\n", saldoInicial);
         System.out.println("Meses invertidos: " + mesesInvertidos);
@@ -38,6 +41,7 @@ public class Inversion extends Cuenta {
 
     }
 
+    //Método sobreescrito
     @Override
     public void mostrarCuenta() {
         System.out.println("Cuenta de tipo INVERSION");
