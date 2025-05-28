@@ -4,8 +4,8 @@ public class Inversion extends Cuenta {
 
     public Inversion() {}
 
-    public Inversion(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente, double ganancia, double rendimientoMensual) {
-        super(numeroCuenta, TipoCuenta.INVERSION, saldo, cliente);
+    public Inversion(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, int nip, Cliente cliente, double ganancia, double rendimientoMensual) {
+        super(numeroCuenta, TipoCuenta.INVERSION, saldo, nip, cliente);
         this.ganancia = ganancia;
         this.rendimientoMensual = rendimientoMensual;
     }
