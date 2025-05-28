@@ -93,6 +93,9 @@ public class Cliente {
         }
     }
 
+    public void seleccionarCuenta(){
+    }
+
     public void mostrarDatosCliente() {
         System.out.println("CLIENTE");
         System.out.println("Nombre: " + getNombreC() +
