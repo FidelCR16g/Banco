@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class Cliente {
     private String nombreC;
     private String ine;
-    private String fechaNacimiento;
-    private String lugarNacimiento;
     private String telefonoC;
     private String correoC;
     private String usuario;
@@ -15,11 +13,9 @@ public class Cliente {
 
     public Cliente() {}
 
-    public Cliente(String nombreC, String ine, String fechaNacimiento, String lugarNacimiento, String telefonoC, String correoC, String usuario, String contrasenia) {
+    public Cliente(String nombreC, String ine, String telefonoC, String correoC, String usuario, String contrasenia) {
         this.nombreC = nombreC;
         this.ine = ine;
-        this.fechaNacimiento = fechaNacimiento;
-        this.lugarNacimiento = lugarNacimiento;
         this.telefonoC = telefonoC;
         this.correoC = correoC;
         this.usuario = usuario;
@@ -41,14 +37,6 @@ public class Cliente {
 
     public String getIne() {
         return ine;
-    }
-
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public String getLugarNacimiento() {
-        return lugarNacimiento;
     }
 
     public String getTelefonoC() {
@@ -93,39 +81,8 @@ public class Cliente {
         }
     }
 
-    public void seleccionarCuenta() {
-        if (cuentas.isEmpty()) {
-            System.out.println("No tienes cuentas registradas.");
-            return;
-        }
+    public void mostrarCuentas() {
 
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Selecciona una cuenta:");
-        for (int i = 0; i < cuentas.size(); i++) {
-            Cuenta cuenta = cuentas.get(i);
-            System.out.println((i + 1) + ". Número: " + cuenta.numeroCuenta +
-                    ", Tipo: " + cuenta.tipoCuenta +
-                    ", Saldo: $" + cuenta.saldo);
-        }
-
-        int opcion = -1;
-        while (opcion < 1 || opcion > cuentas.size()) {
-            System.out.print("Ingresa el número de la cuenta: ");
-            if (scanner.hasNextInt()) {
-                opcion = scanner.nextInt();
-                if (opcion < 1 || opcion > cuentas.size()) {
-                    System.out.println("Opción inválida. Intenta de nuevo.");
-                }
-            } else {
-                System.out.println("Entrada no válida. Intenta de nuevo.");
-                scanner.next(); // limpia entrada inválida
-            }
-        }
-
-        Cuenta cuentaSeleccionada = cuentas.get(opcion - 1);
-        System.out.println("Has seleccionado la cuenta número: " + cuentaSeleccionada.numeroCuenta);
-        cuentaSeleccionada.mostrarCuenta(); // Opcional: muestra los detalles de la cuenta
     }
 
 
@@ -133,8 +90,6 @@ public class Cliente {
         System.out.println("CLIENTE");
         System.out.println("Nombre: " + getNombreC() +
                 "\nINE: " + getIne() +
-                "\nFecha de Nacimiento: " + getFechaNacimiento() +
-                "\nLugar de Nacimiento: " + getLugarNacimiento() +
                 "\nTeléfono: " +  getTelefonoC() +
                 "\nCorreo: " + getCorreoC());
     }
