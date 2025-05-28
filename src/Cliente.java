@@ -93,8 +93,41 @@ public class Cliente {
         }
     }
 
-    public void seleccionarCuenta(){
+    public void seleccionarCuenta() {
+        if (cuentas.isEmpty()) {
+            System.out.println("No tienes cuentas registradas.");
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Selecciona una cuenta:");
+        for (int i = 0; i < cuentas.size(); i++) {
+            Cuenta cuenta = cuentas.get(i);
+            System.out.println((i + 1) + ". Número: " + cuenta.numeroCuenta +
+                    ", Tipo: " + cuenta.tipoCuenta +
+                    ", Saldo: $" + cuenta.saldo);
+        }
+
+        int opcion = -1;
+        while (opcion < 1 || opcion > cuentas.size()) {
+            System.out.print("Ingresa el número de la cuenta: ");
+            if (scanner.hasNextInt()) {
+                opcion = scanner.nextInt();
+                if (opcion < 1 || opcion > cuentas.size()) {
+                    System.out.println("Opción inválida. Intenta de nuevo.");
+                }
+            } else {
+                System.out.println("Entrada no válida. Intenta de nuevo.");
+                scanner.next(); // limpia entrada inválida
+            }
+        }
+
+        Cuenta cuentaSeleccionada = cuentas.get(opcion - 1);
+        System.out.println("Has seleccionado la cuenta número: " + cuentaSeleccionada.numeroCuenta);
+        cuentaSeleccionada.mostrarCuenta(); // Opcional: muestra los detalles de la cuenta
     }
+
 
     public void mostrarDatosCliente() {
         System.out.println("CLIENTE");

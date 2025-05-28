@@ -3,8 +3,8 @@ public class Credito extends Cuenta {
 
     public Credito() {}
 
-    public Credito(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente, String limiteEstablecido) {
-        super(numeroCuenta, TipoCuenta.CREDITO, saldo, cliente);
+    public Credito(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, int nip, Cliente cliente, String limiteEstablecido) {
+        super(numeroCuenta, TipoCuenta.CREDITO, saldo, nip, cliente);
         this.limiteEstablecido = limiteEstablecido;
     }
 
