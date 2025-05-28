@@ -4,7 +4,6 @@ public abstract class Cuenta {
     public enum TipoCuenta {
         INVERSION,
         NOMINA,
-        CORRIENTE,
         CREDITO
     }
 
@@ -13,8 +12,10 @@ public abstract class Cuenta {
     protected double saldo;
     private Cliente cliente;
 
+    //Constructor vacío
     public Cuenta(){}
 
+    //Constructor lleno
     public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente) {
         this.numeroCuenta = numeroCuenta;
         this.tipoCuenta = tipoCuenta;
@@ -22,6 +23,7 @@ public abstract class Cuenta {
         this.cliente = cliente;
     }
 
+    //Getters y Setters
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
