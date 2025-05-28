@@ -5,8 +5,8 @@ public class Nomina extends Cuenta {
 
     public Nomina() {}
 
-    public Nomina(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente, String empleadorDeposito, String lugarTrabajo, double salario) {
-        super(numeroCuenta, TipoCuenta.NOMINA, saldo, cliente);
+    public Nomina(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, int nip, Cliente cliente, String empleadorDeposito, String lugarTrabajo, double salario) {
+        super(numeroCuenta, TipoCuenta.NOMINA, saldo, nip, cliente);
         this.empleadorDeposito = empleadorDeposito;
         this.lugarTrabajo = lugarTrabajo;
         this.salario = salario;
@@ -15,6 +15,8 @@ public class Nomina extends Cuenta {
     public void mostrarSalario() {
         System.out.println("Tu salario es: " + salario);
     }
+
+    //lkjhdfluhsdfkjlhsk
 
     @Override
     public void mostrarCuenta() {
