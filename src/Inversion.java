@@ -30,13 +30,11 @@ public class Inversion extends Cuenta {
     public void mostrarGanancia() {
         double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
         double ganancia = saldoFinal - saldoInicial;
-        double rentabilidad = (ganancia / saldoInicial) * 100;
 
-        System.out.println("Saldo inicial: " + saldoInicial);
+        System.out.printf("Saldo inicial: $%.2f\n", saldoInicial);
         System.out.println("Meses invertidos: " + mesesInvertidos);
-        System.out.println("Saldo final estimado: " + saldoFinal);
-        System.out.println("Ganancia: " + ganancia);
-        System.out.println("Rentabilidad: " + rentabilidad);
+        System.out.printf("Saldo final estimado: $%.2f\n", saldoFinal);
+        System.out.printf("Ganancia: $%.2f\n", ganancia);
 
     }
 
