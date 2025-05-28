@@ -15,10 +15,11 @@ public abstract class Cuenta {
 
     public Cuenta(){}
 
-    public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, Cliente cliente) {
+    public Cuenta(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, int nip, Cliente cliente) {
         this.numeroCuenta = numeroCuenta;
         this.tipoCuenta = tipoCuenta;
         this.saldo = saldo;
+        this.nip = nip;
         this.cliente = cliente;
     }
 
