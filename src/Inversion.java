@@ -23,6 +23,7 @@ public class Inversion extends Cuenta {
 
     public double calcularGanancia() {
         double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
+        //La función Math.pow(a, b) eleva un número 'a' a la potencia 'b'
         return saldoFinal - saldoInicial;
     }
 
@@ -44,7 +45,7 @@ public class Inversion extends Cuenta {
         System.out.println("Cuenta de tipo INVERSION");
         System.out.println("Número de cuenta: " + numeroCuenta);
         System.out.println("Saldo actual: $" + saldo);
-        //System.out.println("Cliente: " + (cliente != null ? cliente.getNombre() : "No asignado"));
+        System.out.println("Cliente: " + (getCliente() != null ? getCliente().getNombreC() : "No hay un cliente."));
         mostrarGanancia();
     }
 }
