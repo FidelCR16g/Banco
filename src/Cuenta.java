@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class Cuenta {
@@ -12,6 +14,7 @@ public abstract class Cuenta {
     protected double saldo;
     protected int nip;
     private Cliente cliente;
+    private List<Movimientos> movimientos;
 
     public Cuenta(){}
 
@@ -21,6 +24,7 @@ public abstract class Cuenta {
         this.saldo = saldo;
         this.nip = nip;
         this.cliente = cliente;
+        this.movimientos = new ArrayList<>();
     }
 
     protected int getNip(){
@@ -33,6 +37,10 @@ public abstract class Cuenta {
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public List<Movimientos> getMovimientos() {
+        return movimientos;
     }
 
     public void retirar() {

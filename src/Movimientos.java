@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Movimientos {
     public enum TipoOperacion {
         RETIRAR,
@@ -12,10 +14,11 @@ public class Movimientos {
     private Cuenta cuentaDestino;
     private String concepto;
     private Cuenta cuenta;
+    private Ticket ticket;
 
     public Movimientos(){}
 
-    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto, Cuenta cuenta) {
+    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto, Cuenta cuenta, Ticket ticket) {
         this.tipoOperacion = tipoOperacion;
         this.monto = monto;
         this.fechaHora = fechaHora;
@@ -23,6 +26,7 @@ public class Movimientos {
         this.cuentaDestino = cuentaDestino;
         this.concepto = concepto;
         this.cuenta = cuenta;
+        this.ticket = ticket;
     }
 
     public void generarTicket() {
@@ -33,7 +37,7 @@ public class Movimientos {
 
     }
 
-    public void generarHistorial() {
-
+    public List<Movimientos> generarHistorial(Cuenta cuenta) {
+        return cuenta.getMovimientos();
     }
 }
