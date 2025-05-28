@@ -13,19 +13,17 @@ public class Movimientos {
     private Cuenta cuentaOrigen;
     private Cuenta cuentaDestino;
     private String concepto;
-    private Cuenta cuenta;
     private Ticket ticket;
 
     public Movimientos(){}
 
-    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto, Cuenta cuenta, Ticket ticket) {
+    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto, Ticket ticket) {
         this.tipoOperacion = tipoOperacion;
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.cuentaOrigen = cuentaOrigen;
         this.cuentaDestino = cuentaDestino;
         this.concepto = concepto;
-        this.cuenta = cuenta;
         this.ticket = ticket;
     }
 
@@ -39,8 +37,6 @@ public class Movimientos {
         if (tipoOperacion == TipoOperacion.TRANSFERIR) {
             sb.append("Cuenta origen: ").append(cuentaOrigen.getNumeroCuenta()).append("\n");
             sb.append("Cuenta destino: ").append(cuentaDestino.getNumeroCuenta()).append("\n");
-        } else {
-            sb.append("Cuenta: ").append(cuenta.getNumeroCuenta()).append("\n");
         }
 
         sb.append("Concepto: ").append(concepto).append("\n");

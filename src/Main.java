@@ -13,6 +13,13 @@ public class Main {
         clientes.add(cliente1);
         clientes.add(cliente2);
 
+        Inversion cuenta1 = new Inversion("12345", 1000, 123, 2.5, 4, cliente1);
+        Nomina cuenta2 = new Nomina("123456", Cuenta.TipoCuenta.NOMINA, 500, 456, cliente2, "Ana", "Xalapa", 1200);
+
+        Movimientos movimientos = new Movimientos(Movimientos.TipoOperacion.TRANSFERIR, 1000, "2025-05-28 10:00:00", cuenta1, cuenta2, "Pago de renta", null);
+
+        movimientos.transferir();
+
         int numeroIntentos = 4;
         boolean sesionExitosa = false;
         Cliente clienteActual = null;
