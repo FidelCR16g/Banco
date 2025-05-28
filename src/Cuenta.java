@@ -31,6 +31,10 @@ public abstract class Cuenta {
         return nip;
     }
 
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }

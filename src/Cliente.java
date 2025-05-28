@@ -51,33 +51,11 @@ public class Cliente {
         return cuentas;
     }
 
-    public void iniciarSesion(){
-        Scanner entrada = new Scanner(System.in);
-        String usuario;
-        String contrasenia;
-        int numeroIntentos = 4;
-
-        while (numeroIntentos > 0) {
-            System.out.println("INICIAR SESION.");
-
-            System.out.print("Usuario: ");
-            usuario = entrada.nextLine();
-
-            System.out.print("Contraseña: ");
-            contrasenia = entrada.nextLine();
-
-            if (!usuario.equals(getUsuario()) ||
-                    !contrasenia.equals(getContrasenia())) {
-                System.out.println("Por favor ingresa los datos correctos, te quedan " + (numeroIntentos - 1) + " intentos.\n");
-                numeroIntentos--;
-            } else {
-                System.out.println("Bienvenido " + usuario + "!\n");
-                break;
-            }
-        }
-
-        if (numeroIntentos == 0){
-            System.out.println("Alcanzaste el número máximo de intentos.\n");
+    public boolean sesionValida(String usuarioIngresado, String contraseniaIngresada){
+        if (!usuarioIngresado.equals(getUsuario()) || !contraseniaIngresada.equals(getContrasenia())) {
+            return false;
+        } else {
+            return true;
         }
     }
 
