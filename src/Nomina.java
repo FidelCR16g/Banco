@@ -5,7 +5,7 @@ public class Nomina extends Cuenta {
 
     public Nomina() {}
 
-    public Nomina(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, int nip, Cliente cliente, String empleadorDeposito, String lugarTrabajo, double salario) {
+    public Nomina(String numeroCuenta, double saldo, int nip, Cliente cliente, String empleadorDeposito, String lugarTrabajo, double salario) {
         super(numeroCuenta, TipoCuenta.NOMINA, saldo, nip, cliente);
         this.empleadorDeposito = empleadorDeposito;
         this.lugarTrabajo = lugarTrabajo;

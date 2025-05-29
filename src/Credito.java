@@ -16,7 +16,7 @@ public class Credito extends Cuenta {
     public Credito() {}
 
     //Constructor con parámetros
-    public Credito(String numeroCuenta, TipoCuenta tipoCuenta, double saldo, int nip, Cliente cliente, double limiteEstablecido) {
+    public Credito(String numeroCuenta, double saldo, int nip, Cliente cliente, double limiteEstablecido) {
         super(numeroCuenta, TipoCuenta.CREDITO, saldo, nip, cliente);
         this.limiteEstablecido = limiteEstablecido;
     }
