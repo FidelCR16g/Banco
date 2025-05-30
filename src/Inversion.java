@@ -50,4 +50,9 @@ public class Inversion extends Cuenta {
         System.out.println("Cliente: " + (getCliente() != null ? getCliente().getNombreC() : "No hay un cliente."));
         mostrarGanancia();
     }
+
+    @Override
+    public void mostrarTipoCuenta(){
+        System.out.println("Inversion");
+    }
 }

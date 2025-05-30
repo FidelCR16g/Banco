@@ -123,4 +123,6 @@ public abstract class Cuenta {
     }
 
     public abstract void mostrarCuenta();
+
+    public abstract void mostrarTipoCuenta();
 }

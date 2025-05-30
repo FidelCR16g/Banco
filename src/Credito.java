@@ -41,4 +41,9 @@ public class Credito extends Cuenta {
         System.out.println("Límite establecido: $" + limiteEstablecido);
         System.out.println("Cliente: " + getCliente().getNombreC());
     }
+
+    @Override
+    public void mostrarTipoCuenta(){
+        System.out.println("Credito");
+    }
 }

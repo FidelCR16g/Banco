@@ -60,7 +60,12 @@ public class Cliente {
     }
 
     public void mostrarCuentas() {
-
+        int i = 1;
+        for (Cuenta cuenta: cuentas){
+            System.out.print(i + ". ");
+            cuenta.mostrarTipoCuenta();
+            i++;
+        }
     }
 
 
