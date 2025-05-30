@@ -6,7 +6,7 @@ public class Main {
     private static final Scanner entrada = new Scanner(System.in);
 
     public static void main(String[] args) {
-        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("C:\\Users\\fave6\\OneDrive\\Documentos\\Fidel Escuela\\Codigos POO\\Banco\\src\\datos.txt");
+        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("C:\\Users\\JOANA XCARET\\Desktop\\Xcaret Uni\\4to Semestre\\Diseño y POO\\Banco\\src\\datos.txt");
 
         int intentosRestantes = 4;
         boolean sesionExitosa = false;
@@ -36,7 +36,7 @@ public class Main {
         if (sesionExitosa) {
             mostrarMenuPrincipal(clienteActual);
         } else {
-            System.out.println("Has alcanzado el numero maximo de intentos.");
+            System.out.println("Has alcanzado el número máximo de intentos.");
         }
     }
 
@@ -54,10 +54,10 @@ public class Main {
 
             clienteActual.mostrarCuentas();
             System.out.println("4. Salir");
-            System.out.print("Opcion: ");
+            System.out.print("Opción: ");
 
             while (!entrada.hasNextInt()) {
-                System.out.println("Ingrese un numero valido.");
+                System.out.println("Ingrese un número válido.");
                 entrada.next();
             }
 
@@ -81,10 +81,10 @@ public class Main {
                         System.out.println("Tipo de cuenta no reconocido.");
                 }
             } else if (opcion == clienteActual.getCuentas().size() + 1) {
-                System.out.println("Cerrando sesion y saliendo del sistema...");
+                System.out.println("Cerrando sesión y saliendo del sistema...");
                 break;
             } else {
-                System.out.println("Opcion invalida.");
+                System.out.println("Opción inválida.");
             }
         } while (true);
     }
@@ -114,7 +114,7 @@ public class Main {
                 case 4:
                     break;
                 default:
-                    System.out.println("Opcion invalida.");
+                    System.out.println("Opción inválida.");
             }
         } while (opcion != 4);
     }
@@ -148,7 +148,7 @@ public class Main {
                 case 5:
                     break;
                 default:
-                    System.out.println("Opcion invalida.");
+                    System.out.println("Opción inválida.");
             }
         } while (opcion != 5);
     }
@@ -158,10 +158,10 @@ public class Main {
         do {
             System.out.println("--- MENU CREDITO ---");
             System.out.println("1. Consultar saldo");
-            System.out.println("2. Mostrar limite de credito");
+            System.out.println("2. Mostrar límite de crédito");
             System.out.println("3. Mostrar datos completos");
             System.out.println("4. Regresar");
-            System.out.print("Seleccione una opcion: ");
+            System.out.print("Seleccione una opción: ");
             opcion = entrada.nextInt();
             entrada.nextLine();
 
@@ -178,7 +178,7 @@ public class Main {
                 case 4:
                     break;
                 default:
-                    System.out.println("Opcion invalida.");
+                    System.out.println("Opción inválida.");
             }
         } while (opcion != 4);
     }

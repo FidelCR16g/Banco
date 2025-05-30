@@ -10,11 +10,11 @@ public class Ticket {
         this.fechaGeneracionTicket = fechaGeneracionTicket;
     }
 
-    public void generarTxt() {
+    public void generarTicket() {
 
     }
 
-    public void guardarTxt(String contenido, String rutaArchivo) {
+    public void guardarTicket(String contenido, String rutaArchivo) {
         try (FileWriter writer = new FileWriter(rutaArchivo)) {
             writer.write(contenido);
             System.out.println("Ticket guardado en " + rutaArchivo);
