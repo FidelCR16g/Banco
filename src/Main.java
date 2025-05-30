@@ -36,7 +36,7 @@ public class Main {
         if (sesionExitosa) {
             mostrarMenuPrincipal(clienteActual);
         } else {
-            System.out.println("Has alcanzado el número máximo de intentos.");
+            System.out.println("Has alcanzado el numero maximo de intentos.");
         }
     }
 
@@ -50,14 +50,14 @@ public class Main {
 
             for (int i = 0; i < clienteActual.getCuentas().size(); i++) {
                 Cuenta cuenta = clienteActual.getCuentas().get(i);
-                System.out.println((i + 1) + ". " + cuenta.tipoCuenta);
             }
 
-            System.out.println((clienteActual.getCuentas().size() + 1) + ". Salir");
-            System.out.print("Opción: ");
+            clienteActual.mostrarCuentas();
+            System.out.println("4. Salir");
+            System.out.print("Opcion: ");
 
             while (!entrada.hasNextInt()) {
-                System.out.println("Ingrese un número válido.");
+                System.out.println("Ingrese un numero valido.");
                 entrada.next();
             }
 
@@ -81,10 +81,10 @@ public class Main {
                         System.out.println("Tipo de cuenta no reconocido.");
                 }
             } else if (opcion == clienteActual.getCuentas().size() + 1) {
-                System.out.println("Cerrando Sesion y Saliendo del sistema...");
+                System.out.println("Cerrando sesion y saliendo del sistema...");
                 break;
             } else {
-                System.out.println("Opción inválida.");
+                System.out.println("Opcion invalida.");
             }
         } while (true);
     }
@@ -92,7 +92,7 @@ public class Main {
     private static void menuInversion(Inversion cuenta) {
         int opcion;
         do {
-            System.out.println("\n--- MENÚ INVERSIÓN ---");
+            System.out.println("--- MENU INVERSION ---");
             System.out.println("1. Consultar saldo");
             System.out.println("2. Mostrar ganancia estimada");
             System.out.println("3. Mostrar datos completos de la cuenta");
@@ -114,7 +114,7 @@ public class Main {
                 case 4:
                     break;
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 4);
     }
@@ -122,7 +122,7 @@ public class Main {
     private static void menuNomina(Nomina cuenta) {
         int opcion;
         do {
-            System.out.println("\n--- MENÚ NÓMINA ---");
+            System.out.println("--- MENU NOMINA ---");
             System.out.println("1. Consultar saldo");
             System.out.println("2. Mostrar salario");
             System.out.println("3. Retirar dinero");
@@ -148,7 +148,7 @@ public class Main {
                 case 5:
                     break;
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 5);
     }
@@ -156,12 +156,12 @@ public class Main {
     private static void menuCredito(Credito cuenta) {
         int opcion;
         do {
-            System.out.println("\n--- MENÚ CRÉDITO ---");
+            System.out.println("--- MENU CREDITO ---");
             System.out.println("1. Consultar saldo");
-            System.out.println("2. Mostrar límite de crédito");
+            System.out.println("2. Mostrar limite de credito");
             System.out.println("3. Mostrar datos completos");
             System.out.println("4. Regresar");
-            System.out.print("Seleccione una opción: ");
+            System.out.print("Seleccione una opcion: ");
             opcion = entrada.nextInt();
             entrada.nextLine();
 
@@ -178,9 +178,8 @@ public class Main {
                 case 4:
                     break;
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 4);
     }
 }
-
