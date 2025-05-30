@@ -40,52 +40,147 @@ public class Main {
         }
     }
 
-    private static void mostrarMenuPrincipal(Cliente cliente) {
-        System.out.println("Bienvenido " + cliente.getNombreC() + "!");
+    private static void mostrarMenuPrincipal(Cliente clienteActual) {
+        System.out.println("Bienvenido " + clienteActual.getNombreC() + "!");
 
-        String eleccion;
+        int opcion;
 
         do {
-            System.out.println("--- Menú de Cuentas Activas ---");
-            cliente.mostrarCuentas();
-            System.out.println("4. Salir");
-            System.out.print("Seleccione su cuenta: ");
-            eleccion = entrada.next();
+            System.out.println("Seleccione una cuenta:");
 
-            switch (eleccion) {
-                case "1":
-                case "Inversion":
-                    menuInversion(cliente);
-                    break;
-                case "2":
-                case "Nomina":
-                    menuNomina(cliente);
-                    break;
-                case "3":
-                case "Credito":
-                    menuCredito(cliente);
-                    break;
-                case "4":
-                case "Salir":
-                    System.out.println("Cerrando sesión...");
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
+            for (int i = 0; i < clienteActual.getCuentas().size(); i++) {
+                Cuenta cuenta = clienteActual.getCuentas().get(i);
+                System.out.println((i + 1) + ". " + cuenta.tipoCuenta);
             }
 
-        } while (!eleccion.equalsIgnoreCase("4") && !eleccion.equalsIgnoreCase("Salir"));
+            System.out.println((clienteActual.getCuentas().size() + 1) + ". Salir");
+            System.out.print("Opción: ");
+
+            while (!entrada.hasNextInt()) {
+                System.out.println("Ingrese un número válido.");
+                entrada.next();
+            }
+
+            opcion = entrada.nextInt();
+            entrada.nextLine();
+
+            if (opcion > 0 && opcion <= clienteActual.getCuentas().size()) {
+                Cuenta cuentaSeleccionada = clienteActual.getCuentas().get(opcion - 1);
+
+                switch (cuentaSeleccionada.tipoCuenta) {
+                    case INVERSION:
+                        menuInversion((Inversion) cuentaSeleccionada);
+                        break;
+                    case NOMINA:
+                        menuNomina((Nomina) cuentaSeleccionada);
+                        break;
+                    case CREDITO:
+                        menuCredito((Credito) cuentaSeleccionada);
+                        break;
+                    default:
+                        System.out.println("Tipo de cuenta no reconocido.");
+                }
+            } else if (opcion == clienteActual.getCuentas().size() + 1) {
+                System.out.println("Cerrando Sesion y Saliendo del sistema...");
+                break;
+            } else {
+                System.out.println("Opción inválida.");
+            }
+        } while (true);
     }
 
-    private static void menuInversion(Cliente cliente) {
-        System.out.println("--- Menú Inversión ---");
+    private static void menuInversion(Inversion cuenta) {
+        int opcion;
+        do {
+            System.out.println("\n--- MENÚ INVERSIÓN ---");
+            System.out.println("1. Consultar saldo");
+            System.out.println("2. Mostrar ganancia estimada");
+            System.out.println("3. Mostrar datos completos de la cuenta");
+            System.out.println("4. Regresar");
+            System.out.print("Seleccione una opción: ");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
 
+            switch (opcion) {
+                case 1:
+                    cuenta.consultarSaldo();
+                    break;
+                case 2:
+                    cuenta.mostrarGanancia();
+                    break;
+                case 3:
+                    cuenta.mostrarCuenta();
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        } while (opcion != 4);
     }
 
-    private static void menuNomina(Cliente cliente) {
-        System.out.println("--- Menú Nómina ---");
+    private static void menuNomina(Nomina cuenta) {
+        int opcion;
+        do {
+            System.out.println("\n--- MENÚ NÓMINA ---");
+            System.out.println("1. Consultar saldo");
+            System.out.println("2. Mostrar salario");
+            System.out.println("3. Retirar dinero");
+            System.out.println("4. Mostrar datos completos");
+            System.out.println("5. Regresar");
+            System.out.print("Seleccione una opción: ");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    cuenta.consultarSaldo();
+                    break;
+                case 2:
+                    cuenta.mostrarSalario();
+                    break;
+                case 3:
+                    cuenta.retirar();
+                    break;
+                case 4:
+                    cuenta.mostrarCuenta();
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        } while (opcion != 5);
     }
 
-    private static void menuCredito(Cliente cliente) {
-        System.out.println("--- Menú Crédito ---");
+    private static void menuCredito(Credito cuenta) {
+        int opcion;
+        do {
+            System.out.println("\n--- MENÚ CRÉDITO ---");
+            System.out.println("1. Consultar saldo");
+            System.out.println("2. Mostrar límite de crédito");
+            System.out.println("3. Mostrar datos completos");
+            System.out.println("4. Regresar");
+            System.out.print("Seleccione una opción: ");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    cuenta.consultarSaldo();
+                    break;
+                case 2:
+                    cuenta.mostrarLimite();
+                    break;
+                case 3:
+                    cuenta.mostrarCuenta();
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        } while (opcion != 4);
     }
 }
+
