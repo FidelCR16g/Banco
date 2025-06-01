@@ -125,6 +125,16 @@ public abstract class Cuenta {
         }
     }
 
+    public void registrarMovimiento(Movimientos.TipoOperacion tipo, double monto, String concepto) {
+        String fechaHora = new Date().toString();
+        Movimientos movimiento = new Movimientos(tipo, monto, fechaHora,
+                tipo == Movimientos.TipoOperacion.RETIRAR ? this : null,
+                tipo == Movimientos.TipoOperacion.DEPOSITAR ? this : null,
+                concepto);
+        movimientos.add(movimiento);
+        movimiento.procesarTicket();
+    }
+
     protected boolean nipValido() {
         Scanner entrada = new Scanner(System.in);
         int numeroIntentos = 4;

@@ -66,12 +66,26 @@ public class Movimientos {
             cuentaOrigen.getMovimientos().add(this);
             cuentaDestino.getMovimientos().add(this);
 
-            this.procesarTicket();
+            procesarTicket();
             System.out.println("Transferencia exitosa");
         }
     }
 
-    public List<Movimientos> generarHistorial(Cuenta cuenta) {
-        return cuenta.getMovimientos();
+    public void generarHistorial(Cuenta cuenta) {
+        List<Movimientos> historial = cuenta.getMovimientos();
+
+        if (historial.isEmpty()) {
+            System.out.println("No hay movimientos registrados");
+            return;
+        }
+
+        System.out.println("\nHistorial de movimientos:");
+        for (Movimientos movimiento : historial) {
+            String linea = "[" + movimiento.getFechaHora() + "] " +
+                    movimiento.getTipoOperacion() + ": $" +
+                    String.format("%.2f", movimiento.getMonto()) + " - " +
+                    movimiento.getConcepto();
+            System.out.println(linea);
+        }
     }
 }
