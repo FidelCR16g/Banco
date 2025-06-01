@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,22 +36,27 @@ public abstract class Cuenta {
         return numeroCuenta;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public double getSaldo() {
+        return saldo;
     }
 
     public List<Movimientos> getMovimientos() {
         return movimientos;
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public void retirar() {
 
         if (nipValido()){
             Scanner scanner = new Scanner(System.in);
+            String fechaHora = new Date().toString();
 
             while (true) {
                 System.out.println("Ingresa el monto a retirar: ");
@@ -64,6 +70,18 @@ public abstract class Cuenta {
                     System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
                 } else {
                     saldo -= monto;
+                    Movimientos retiro = new Movimientos(
+                            Movimientos.TipoOperacion.RETIRAR,
+                            monto,
+                            fechaHora,
+                            this,
+                            null,
+                            "Retiro en efectivo"
+                    );
+
+                    this.getMovimientos().add(retiro);
+                    retiro.procesarTicket();
+                    System.out.println("Retiro exitoso");
                     break;
                 }
             }
@@ -75,6 +93,7 @@ public abstract class Cuenta {
     public void depositar() {
         if (nipValido()){
             Scanner scanner = new Scanner(System.in);
+            String fechaHora = new Date().toString();
 
             while (true) {
                 System.out.println("Ingresa el monto a depositar: ");
@@ -86,12 +105,34 @@ public abstract class Cuenta {
                     System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
                 } else {
                     saldo += monto;
+                    Movimientos deposito = new Movimientos(
+                            Movimientos.TipoOperacion.DEPOSITAR,
+                            monto,
+                            fechaHora,
+                            null,
+                            this,
+                            "Depósito en efectivo"
+                    );
+
+                    this.getMovimientos().add(deposito);
+                    deposito.procesarTicket();
+                    System.out.println("Depósito exitoso");
                     break;
                 }
             }
         }else{
             System.out.println(" ");
         }
+    }
+
+    public void registrarMovimiento(Movimientos.TipoOperacion tipo, double monto, String concepto) {
+        String fechaHora = new Date().toString();
+        Movimientos movimiento = new Movimientos(tipo, monto, fechaHora,
+                tipo == Movimientos.TipoOperacion.RETIRAR ? this : null,
+                tipo == Movimientos.TipoOperacion.DEPOSITAR ? this : null,
+                concepto);
+        movimientos.add(movimiento);
+        movimiento.procesarTicket();
     }
 
     protected boolean nipValido() {

@@ -13,62 +13,79 @@ public class Movimientos {
     private Cuenta cuentaOrigen;
     private Cuenta cuentaDestino;
     private String concepto;
-    private Ticket ticket;
 
     public Movimientos(){}
 
-    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto, Ticket ticket) {
+    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto) {
         this.tipoOperacion = tipoOperacion;
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.cuentaOrigen = cuentaOrigen;
         this.cuentaDestino = cuentaDestino;
         this.concepto = concepto;
-        this.ticket = ticket;
     }
 
-    public void generarTicket() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("**************************************");
-        sb.append("COMPROBANTE").append("\nOperación: ").append(tipoOperacion);
-        sb.append("COMPROBANTE").append("\nFecha y hora: ").append(fechaHora);
-        sb.append("COMPROBANTE").append("\nMonto: ").append(monto).append("\n");
+    public TipoOperacion getTipoOperacion() {
+        return tipoOperacion;
+    }
 
-        if (tipoOperacion == TipoOperacion.TRANSFERIR) {
-            sb.append("Cuenta origen: ").append(cuentaOrigen.getNumeroCuenta()).append("\n");
-            sb.append("Cuenta destino: ").append(cuentaDestino.getNumeroCuenta()).append("\n");
-        }
+    public String getFechaHora() {
+        return fechaHora;
+    }
 
-        sb.append("Concepto: ").append(concepto).append("\n");
-        sb.append("**************************************");
+    public double getMonto() {
+        return monto;
+    }
 
-        ticket = new Ticket(sb.toString());
-        ticket.generarTxt();
+    public Cuenta getCuentaOrigen() {
+        return cuentaOrigen;
+    }
+
+    public Cuenta getCuentaDestino() {
+        return cuentaDestino;
+    }
+
+    public String getConcepto() {
+        return concepto;
+    }
+
+    public void procesarTicket() {
+        Ticket ticket = new Ticket(this.fechaHora, this);
+        ticket.guardarTicket();
     }
 
     public void transferir() {
         if (cuentaOrigen != null && cuentaDestino != null) {
-            if (cuentaOrigen.getCliente() != null && cuentaDestino.getCliente() != null) {
-                if (cuentaOrigen.saldo >= monto) {
-                    cuentaOrigen.saldo -= monto;
-                    cuentaDestino.saldo += monto;
-
-                    cuentaOrigen.getMovimientos().add(this);
-                    cuentaDestino.getMovimientos().add(this);
-
-                    generarTicket();
-                } else {
-                    System.out.println("El saldo es insuficiente para realizar la transferencia.");
-                }
-            } else {
-                System.out.println("Cuentas no válidas.");
+            if (cuentaOrigen.getSaldo() < monto) {
+                System.out.println("Saldo insuficiente para realizar la transferencia.");
+                return;
             }
-        } else {
-            System.out.println("No se puede transferir porque una de las cuentas es nula.");
+            cuentaOrigen.saldo -= monto;
+            cuentaDestino.saldo += monto;
+
+            cuentaOrigen.getMovimientos().add(this);
+            cuentaDestino.getMovimientos().add(this);
+
+            procesarTicket();
+            System.out.println("Transferencia exitosa");
         }
     }
 
-    public List<Movimientos> generarHistorial(Cuenta cuenta) {
-        return cuenta.getMovimientos();
+    public void generarHistorial(Cuenta cuenta) {
+        List<Movimientos> historial = cuenta.getMovimientos();
+
+        if (historial.isEmpty()) {
+            System.out.println("No hay movimientos registrados");
+            return;
+        }
+
+        System.out.println("\nHistorial de movimientos:");
+        for (Movimientos movimiento : historial) {
+            String linea = "[" + movimiento.getFechaHora() + "] " +
+                    movimiento.getTipoOperacion() + ": $" +
+                    String.format("%.2f", movimiento.getMonto()) + " - " +
+                    movimiento.getConcepto();
+            System.out.println(linea);
+        }
     }
 }
