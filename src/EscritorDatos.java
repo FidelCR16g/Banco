@@ -3,7 +3,20 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Clase para guardar la información de clientes, cuentas y movimientos
+ * en un archivo de texto con un formato legible y estructurado.
+ */
+
 public class EscritorDatos {
+
+    /**
+     * Guarda la lista de clientes en un archivo de texto especificado,
+     * incluyendo sus cuentas y movimientos asociados.
+     *
+     * @param ruta     La ruta completa del archivo donde se guardarán los datos.
+     * @param clientes La lista de objetos Cliente a guardar.
+     */
 
     public static void guardarClientesEnArchivo(String ruta, List<Cliente> clientes) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ruta))) {
