@@ -76,12 +76,11 @@ public abstract class Cuenta {
                             fechaHora,
                             this,
                             null,
-                            "Retiro en efectivo",
-                            null
+                            "Retiro en efectivo"
                     );
 
                     this.getMovimientos().add(retiro);
-                    retiro.generarTicket();
+                    retiro.procesarTicket();
                     System.out.println("Retiro exitoso");
                     break;
                 }
@@ -112,12 +111,11 @@ public abstract class Cuenta {
                             fechaHora,
                             null,
                             this,
-                            "Depósito en efectivo",
-                            null
+                            "Depósito en efectivo"
                     );
 
                     this.getMovimientos().add(deposito);
-                    deposito.generarTicket();
+                    deposito.procesarTicket();
                     System.out.println("Depósito exitoso");
                     break;
                 }
