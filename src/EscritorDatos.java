@@ -1,18 +1,22 @@
-import java.io.*;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class EscritorDatos {
 
     public static void guardarClientesEnArchivo(String ruta, List<Cliente> clientes) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ruta))) {
-            for (Cliente cliente : clientes) {
+            for (int i = 0; i < clientes.size(); i++) {
+                Cliente cliente = clientes.get(i);
                 // Escribir datos del cliente
                 bw.write("CLIENTE");
                 bw.newLine();
                 bw.write(String.join("|",
                         cliente.getNombreC(),
-                        cliente.getCorreoC(),
+                        cliente.getIne(),
                         cliente.getTelefonoC(),
+                        cliente.getCorreoC(),
                         cliente.getUsuario(),
                         cliente.getContrasenia()));
                 bw.newLine();
@@ -25,7 +29,8 @@ public class EscritorDatos {
                     if (cuenta instanceof Inversion) {
                         Inversion inversion = (Inversion) cuenta;
                         bw.write(String.join("|",
-                                inversion.getNumeroCuenta(), "INVERSION",
+                                inversion.getNumeroCuenta(),
+                                "INVERSION",
                                 String.valueOf(inversion.getSaldo()),
                                 String.valueOf(inversion.getNip()),
                                 String.valueOf(inversion.getRendimientoMensual()),
@@ -35,7 +40,8 @@ public class EscritorDatos {
                     } else if (cuenta instanceof Nomina) {
                         Nomina nomina = (Nomina) cuenta;
                         bw.write(String.join("|",
-                                nomina.getNumeroCuenta(), "NOMINA",
+                                nomina.getNumeroCuenta(),
+                                "NOMINA",
                                 String.valueOf(nomina.getSaldo()),
                                 String.valueOf(nomina.getNip()),
                                 nomina.getEmpleadorDeposito(),
@@ -46,7 +52,8 @@ public class EscritorDatos {
                     } else if (cuenta instanceof Credito) {
                         Credito credito = (Credito) cuenta;
                         bw.write(String.join("|",
-                                credito.getNumeroCuenta(), "CREDITO",
+                                credito.getNumeroCuenta(),
+                                "CREDITO",
                                 String.valueOf(credito.getSaldo()),
                                 String.valueOf(credito.getNip()),
                                 String.valueOf(credito.getLimiteEstablecido())));
@@ -63,9 +70,13 @@ public class EscritorDatos {
                                 mov.getFechaHora(),
                                 mov.getCuentaOrigen() != null ? mov.getCuentaOrigen().getNumeroCuenta() : "",
                                 mov.getCuentaDestino() != null ? mov.getCuentaDestino().getNumeroCuenta() : "",
-                                mov.getConcepto()));
+                                mov.getConcepto() != null ? mov.getConcepto() : ""));
                         bw.newLine();
                     }
+                }
+                // Salto de línea extra entre clientes para mantener formato legible como en el txt original
+                if (i < clientes.size() - 1) {
+                    bw.newLine();
                 }
             }
             System.out.println("Datos guardados correctamente.");

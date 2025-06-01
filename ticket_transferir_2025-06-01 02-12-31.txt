@@ -1,0 +1,10 @@
+
+**************************************
+*** COMPROBANTE ***
+Tipo de operación: TRANSFERIR
+Fecha y hora: 2025-06-01 02:12:31
+Monto: $200.0
+Cuenta origen: 22345
+Cuenta destino: 12346
+Concepto: Internet
+**************************************
