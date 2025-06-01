@@ -3,6 +3,12 @@ import java.util.*;
 
 public class LectorDatos {
 
+    /**
+     * Carga clientes, cuentas y movimientos desde un archivo de texto.
+     *
+     * @param ruta Ruta del archivo con los datos.
+     * @return Lista de clientes con sus cuentas y movimientos.
+     */
     public static List<Cliente> cargarClientesDesdeArchivo(String ruta) {
         List<Cliente> clientes = new ArrayList<>();
         List<String[]> movimientosTemporales = new ArrayList<>();
@@ -12,82 +18,111 @@ public class LectorDatos {
             Cliente clienteActual = null;
 
             while ((linea = br.readLine()) != null) {
-                if (linea.equals("CLIENTE")) {
-                    String[] datos = br.readLine().split("\\|");
-                    clienteActual = new Cliente(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5]);
-                    clientes.add(clienteActual);
+                switch (linea) {
+                    case "CLIENTE":
+                        String[] datosCliente = br.readLine().split("\\|");
+                        if (datosCliente.length < 6) {
+                            System.out.println("Datos de cliente incompletos: " + Arrays.toString(datosCliente));
+                            continue;
+                        }
+                        clienteActual = new Cliente(datosCliente[0], datosCliente[1], datosCliente[2],
+                                datosCliente[3], datosCliente[4], datosCliente[5]);
+                        clientes.add(clienteActual);
+                        break;
 
-                } else if (linea.equals("CUENTA")) {
-                    String[] datos = br.readLine().split("\\|");
-                    String tipo = datos[1];
-                    Cuenta cuenta = null;
+                    case "CUENTA":
+                        String[] datosCuenta = br.readLine().split("\\|");
+                        Cuenta cuenta = null;
+                        String tipo = datosCuenta[1];
 
-                    switch (tipo) {
-                        case "INVERSION":
-                            cuenta = new Inversion(datos[0], Double.parseDouble(datos[2]), Integer.parseInt(datos[3]),
-                                    Double.parseDouble(datos[4]), Integer.parseInt(datos[5]), clienteActual);
-                            break;
-                        case "NOMINA":
-                            cuenta = new Nomina(datos[0], Double.parseDouble(datos[2]), Integer.parseInt(datos[3]),
-                                    datos[4], datos[5], Double.parseDouble(datos[6]), clienteActual
-                            );
-                            break;
-                        case "CREDITO":
-                            cuenta = new Credito(datos[0], Double.parseDouble(datos[2]),
-                                    Integer.parseInt(datos[3]), Double.parseDouble(datos[4]), clienteActual);
-                            break;
-                    }
+                        try {
+                            switch (tipo) {
+                                case "INVERSION":
+                                    cuenta = new Inversion(datosCuenta[0], Double.parseDouble(datosCuenta[2]),
+                                            Integer.parseInt(datosCuenta[3]),
+                                            Double.parseDouble(datosCuenta[4]),
+                                            Integer.parseInt(datosCuenta[5]),
+                                            clienteActual);
+                                    break;
+                                case "NOMINA":
+                                    cuenta = new Nomina(datosCuenta[0], Double.parseDouble(datosCuenta[2]),
+                                            Integer.parseInt(datosCuenta[3]), datosCuenta[4],
+                                            datosCuenta[5], Double.parseDouble(datosCuenta[6]),
+                                            clienteActual);
+                                    break;
+                                case "CREDITO":
+                                    cuenta = new Credito(datosCuenta[0], Double.parseDouble(datosCuenta[2]),
+                                            Integer.parseInt(datosCuenta[3]),
+                                            Double.parseDouble(datosCuenta[4]),
+                                            clienteActual);
+                                    break;
+                                default:
+                                    System.out.println("Tipo de cuenta no reconocido: " + tipo);
+                                    break;
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Error en formato numérico en cuenta: " + e.getMessage());
+                        }
 
-                    if (cuenta != null) {
-                        clienteActual.asignarCuenta(cuenta);
-                    }
+                        if (cuenta != null) {
+                            clienteActual.asignarCuenta(cuenta);
+                        }
+                        break;
 
-                } else if (linea.equals("MOVIMIENTO")) {
-                    String[] datos = br.readLine().split("\\|");
-                    movimientosTemporales.add(datos);
+                    case "MOVIMIENTO":
+                        String[] datosMovimiento = br.readLine().split("\\|");
+                        movimientosTemporales.add(datosMovimiento);
+                        break;
+
+                    default:
+                        break;
                 }
             }
 
-            // Segunda pasada: procesar movimientos
+            // Procesar movimientos después para tener todas las cuentas cargadas
             for (String[] datos : movimientosTemporales) {
-                Movimientos.TipoOperacion tipoOp = Movimientos.TipoOperacion.valueOf(datos[0]);
-                double monto = Double.parseDouble(datos[1]);
-                String fecha = datos[2];
-                String numCuentaOrigen = datos[3];
-                String numCuentaDestino = datos[4];
-                String concepto = datos[5];
+                try {
+                    Movimientos.TipoOperacion tipoOp = Movimientos.TipoOperacion.valueOf(datos[0]);
+                    double monto = Double.parseDouble(datos[1]);
+                    String fecha = datos[2];
+                    String numCuentaOrigen = datos[3];
+                    String numCuentaDestino = datos[4];
+                    String concepto = datos[5];
 
-                Cuenta cuentaOrigen = buscarCuenta(clientes, numCuentaOrigen);
-                Cuenta cuentaDestino = numCuentaDestino.isEmpty() ? null : buscarCuenta(clientes, numCuentaDestino);
+                    Cuenta cuentaOrigen = buscarCuenta(clientes, numCuentaOrigen);
+                    Cuenta cuentaDestino = numCuentaDestino.isEmpty() ? null : buscarCuenta(clientes, numCuentaDestino);
 
-                Movimientos movimientos = new Movimientos(tipoOp, monto, fecha, cuentaOrigen, cuentaDestino, concepto);
+                    Movimientos movimientos = new Movimientos(tipoOp, monto, fecha, cuentaOrigen, cuentaDestino, concepto);
 
-                if (tipoOp == Movimientos.TipoOperacion.TRANSFERIR) {
-                    if (cuentaOrigen != null && cuentaDestino != null) {
-                        if (cuentaOrigen.disminuirSaldo(monto)) {
-                            cuentaDestino.aumentarSaldo(monto);
-                            cuentaOrigen.getMovimientos().add(movimientos);
-                            cuentaDestino.getMovimientos().add(movimientos);
-                            movimientos.procesarTicket();
+                    if (tipoOp == Movimientos.TipoOperacion.TRANSFERIR) {
+                        if (cuentaOrigen != null && cuentaDestino != null) {
+                            if (cuentaOrigen.disminuirSaldo(monto)) {
+                                cuentaDestino.aumentarSaldo(monto);
+                                cuentaOrigen.getMovimientos().add(movimientos);
+                                cuentaDestino.getMovimientos().add(movimientos);
+                                movimientos.procesarTicket();
+                            } else {
+                                System.out.println("Saldo insuficiente para transferir de " + cuentaOrigen.getNumeroCuenta());
+                            }
                         } else {
-                            System.out.println("Saldo insuficiente para transferir de " + cuentaOrigen.getNumeroCuenta());
+                            System.out.println("Cuenta origen o destino no encontrada para transferencia.");
                         }
                     } else {
-                        System.out.println("Cuenta origen o destino no encontrada para transferencia.");
-                    }
-                } else {
-                    if (cuentaOrigen != null) {
-                        if (tipoOp == Movimientos.TipoOperacion.DEPOSITAR) {
-                            cuentaOrigen.aumentarSaldo(monto);
-                        } else if (tipoOp == Movimientos.TipoOperacion.RETIRAR) {
-                            if (!cuentaOrigen.disminuirSaldo(monto)) {
-                                System.out.println("Saldo insuficiente para retirar.");
-                                continue;
+                        if (cuentaOrigen != null) {
+                            if (tipoOp == Movimientos.TipoOperacion.DEPOSITAR) {
+                                cuentaOrigen.aumentarSaldo(monto);
+                            } else if (tipoOp == Movimientos.TipoOperacion.RETIRAR) {
+                                if (!cuentaOrigen.disminuirSaldo(monto)) {
+                                    System.out.println("Saldo insuficiente para retirar.");
+                                    continue;
+                                }
                             }
+                            cuentaOrigen.getMovimientos().add(movimientos);
+                            movimientos.procesarTicket();
                         }
-                        cuentaOrigen.getMovimientos().add(movimientos);
-                        movimientos.procesarTicket();
                     }
+                } catch (Exception e) {
+                    System.out.println("Error procesando movimiento: " + Arrays.toString(datos) + " - " + e.getMessage());
                 }
             }
 

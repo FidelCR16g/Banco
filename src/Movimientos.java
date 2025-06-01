@@ -1,7 +1,17 @@
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>Clase que representa un movimiento financiero dentro del sistema.</p>
+ *
+ * <p>Un movimiento puede ser un retiro, depósito o transferencia entre cuentas.
+ * Contiene información como el tipo de operación, monto, fecha y hora,
+ * cuentas involucradas y un concepto descriptivo.</p>
+ */
 public class Movimientos {
+
+    /**
+     * Enum que define los tipos de operación que se pueden realizar.
+     */
     public enum TipoOperacion {
         RETIRAR,
         DEPOSITAR,
@@ -15,9 +25,23 @@ public class Movimientos {
     private Cuenta cuentaDestino;
     private String concepto;
 
-    public Movimientos(){}
+    /**
+     * Constructor por defecto.
+     */
+    public Movimientos() {}
 
-    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora, Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto) {
+    /**
+     * Constructor que inicializa un movimiento con todos sus datos.
+     *
+     * @param tipoOperacion Tipo de operación (RETIRO, DEPÓSITO o TRANSFERENCIA).
+     * @param monto Monto del movimiento.
+     * @param fechaHora Fecha y hora en que se realiza el movimiento.
+     * @param cuentaOrigen Cuenta desde donde se realiza la operación.
+     * @param cuentaDestino Cuenta a la que se transfiere (si aplica).
+     * @param concepto Concepto o descripción del movimiento.
+     */
+    public Movimientos(TipoOperacion tipoOperacion, double monto, String fechaHora,
+                       Cuenta cuentaOrigen, Cuenta cuentaDestino, String concepto) {
         this.tipoOperacion = tipoOperacion;
         this.monto = monto;
         this.fechaHora = fechaHora;
@@ -50,6 +74,13 @@ public class Movimientos {
         return concepto;
     }
 
+    /**
+     * Busca una cuenta en la lista de clientes a partir del número de cuenta.
+     *
+     * @param numeroCuenta Número de cuenta a buscar.
+     * @param clientes Lista de clientes registrados.
+     * @return La cuenta si se encuentra, null en caso contrario.
+     */
     public static Cuenta buscarCuenta(String numeroCuenta, List<Cliente> clientes) {
         for (Cliente cliente : clientes) {
             for (Cuenta cuenta : cliente.getCuentas()) {
@@ -61,12 +92,19 @@ public class Movimientos {
         return null;
     }
 
-
+    /**
+     * Procesa y guarda un ticket del movimiento realizado.
+     */
     public void procesarTicket() {
         Ticket ticket = new Ticket(this.fechaHora, this);
         ticket.guardarTicket();
     }
 
+    /**
+     * Realiza una transferencia entre la cuenta de origen y la cuenta destino.
+     * Verifica que haya saldo suficiente antes de ejecutar la operación.
+     * Si la transferencia es exitosa, guarda el ticket y registra el movimiento en ambas cuentas.
+     */
     public void transferir() {
         if (cuentaOrigen != null && cuentaDestino != null) {
             if (cuentaOrigen.getSaldo() < monto) {
@@ -84,6 +122,11 @@ public class Movimientos {
         }
     }
 
+    /**
+     * Genera e imprime el historial de movimientos de una cuenta.
+     *
+     * @param cuenta La cuenta cuyo historial se desea mostrar.
+     */
     public void generarHistorial(Cuenta cuenta) {
         List<Movimientos> historial = cuenta.getMovimientos();
 

@@ -1,21 +1,33 @@
-/*
-Esta clase llamada Inversion hereda de la clase Cuenta, la cual tiene como atributos:
-ganancia, rendimientoMensual, saldoInicial, mesesInvertidos.
-Se colocan ambos constructores, uno con parámetros y otro sin parámetros. En donde, sus
-métodos propios son calcularGanancia() y mostrarGanancia().
-Se sobreecribe la clase mostrarCuenta() de la clase Cuenta.
-*/
-
+/**
+ * <p>Clase Inversion que hereda de Cuenta y representa una cuenta de inversión.</p>
+ *
+ * <p>Contiene atributos específicos como ganancia, rendimiento mensual, saldo inicial y meses invertidos.</p>
+ *
+ * <p>Incluye métodos para calcular y mostrar la ganancia estimada basada en el rendimiento mensual y
+ * los meses invertidos. También sobreescribe el método mostrarCuenta() de la clase Cuenta para mostrar
+ * información detallada de la cuenta de inversión.</p>
+ */
 public class Inversion extends Cuenta {
     private double ganancia;
     private double rendimientoMensual; // en porcentaje (2.5 significa 2.5%)
     private double saldoInicial;
     private int mesesInvertidos;
 
-    //Constructor vacío
+    /**
+     * Constructor vacío.
+     */
     public Inversion() {}
 
-    //Constructor con parámetros
+    /**
+     * Constructor con parámetros que inicializa una cuenta de inversión.
+     *
+     * @param numeroCuenta Número de cuenta.
+     * @param saldoInicial Saldo inicial invertido.
+     * @param nip Número de identificación personal (NIP).
+     * @param rendimientoMensual Rendimiento mensual esperado en porcentaje.
+     * @param mesesInvertidos Número de meses que se invertirá el saldo.
+     * @param cliente Cliente asociado a la cuenta.
+     */
     public Inversion(String numeroCuenta, double saldoInicial, int nip, double rendimientoMensual, int mesesInvertidos, Cliente cliente) {
         super(numeroCuenta, TipoCuenta.INVERSION, saldoInicial, nip, cliente);
         this.saldoInicial = saldoInicial;
@@ -55,13 +67,22 @@ public class Inversion extends Cuenta {
         this.mesesInvertidos = mesesInvertidos;
     }
 
-    //Métodos propios
+    /**
+     * Calcula la ganancia estimada con base en el saldo inicial,
+     * rendimiento mensual y meses invertidos usando interés compuesto.
+     *
+     * @return Ganancia calculada (saldo final menos saldo inicial).
+     */
     public double calcularGanancia() {
         double saldoFinal = getSaldoInicial() * Math.pow(1 + (getRendimientoMensual() / 100), getMesesInvertidos());
-        //La función Math.pow(a, b) eleva un número 'a' a la potencia 'b'
+        // La función Math.pow(a, b) eleva un número 'a' a la potencia 'b'
         return saldoFinal - saldoInicial;
     }
 
+    /**
+     * Muestra por consola el saldo inicial, meses invertidos,
+     * saldo final estimado y la ganancia calculada.
+     */
     public void mostrarGanancia() {
         double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
         ganancia = saldoFinal - saldoInicial;
@@ -70,10 +91,12 @@ public class Inversion extends Cuenta {
         System.out.println("Meses invertidos: " + getMesesInvertidos());
         System.out.printf("Saldo final estimado: $%.2f\n", saldoFinal);
         System.out.printf("Ganancia: $%.2f\n", getGanancia());
-
     }
 
-    //Metodo sobreescrito
+    /**
+     * Muestra información detallada de la cuenta de inversión,
+     * incluyendo tipo de cuenta, número, saldo, cliente y ganancia.
+     */
     @Override
     public void mostrarCuenta() {
         System.out.println("Cuenta de tipo INVERSION");
@@ -83,6 +106,9 @@ public class Inversion extends Cuenta {
         mostrarGanancia();
     }
 
+    /**
+     * Muestra el tipo de cuenta: "Inversion".
+     */
     @Override
     public void mostrarTipoCuenta(){
         System.out.println("Inversion");

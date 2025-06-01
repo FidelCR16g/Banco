@@ -3,15 +3,28 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Clase para guardar la información de clientes, cuentas y movimientos
+ * en un archivo de texto con un formato legible y estructurado.
+ */
 public class EscritorDatos {
 
+    /**
+     * Guarda la lista de clientes en un archivo de texto especificado,
+     * incluyendo sus cuentas y movimientos asociados.
+     *
+     * @param ruta     La ruta completa del archivo donde se guardarán los datos.
+     * @param clientes La lista de objetos Cliente a guardar.
+     */
     public static void guardarClientesEnArchivo(String ruta, List<Cliente> clientes) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ruta))) {
             for (int i = 0; i < clientes.size(); i++) {
                 Cliente cliente = clientes.get(i);
-                // Escribir datos del cliente
+                // Escribir etiqueta de cliente
                 bw.write("CLIENTE");
                 bw.newLine();
+
+                // Escribir datos del cliente separados por "|"
                 bw.write(String.join("|",
                         cliente.getNombreC(),
                         cliente.getIne(),
@@ -21,7 +34,7 @@ public class EscritorDatos {
                         cliente.getContrasenia()));
                 bw.newLine();
 
-                // Escribir cuentas del cliente
+                // Escribir las cuentas del cliente
                 for (Cuenta cuenta : cliente.getCuentas()) {
                     bw.write("CUENTA");
                     bw.newLine();
@@ -31,9 +44,9 @@ public class EscritorDatos {
                         bw.write(String.join("|",
                                 inversion.getNumeroCuenta(),
                                 "INVERSION",
-                                String.valueOf(inversion.getSaldo()),
+                                String.format("%.2f", inversion.getSaldo()),        // saldo formateado a 2 decimales
                                 String.valueOf(inversion.getNip()),
-                                String.valueOf(inversion.getRendimientoMensual()),
+                                String.format("%.2f", inversion.getRendimientoMensual()),
                                 String.valueOf(inversion.getMesesInvertidos())));
                         bw.newLine();
 
@@ -42,11 +55,11 @@ public class EscritorDatos {
                         bw.write(String.join("|",
                                 nomina.getNumeroCuenta(),
                                 "NOMINA",
-                                String.valueOf(nomina.getSaldo()),
+                                String.format("%.2f", nomina.getSaldo()),
                                 String.valueOf(nomina.getNip()),
                                 nomina.getEmpleadorDeposito(),
                                 nomina.getLugarTrabajo(),
-                                String.valueOf(nomina.getSalario())));
+                                String.format("%.2f", nomina.getSalario())));
                         bw.newLine();
 
                     } else if (cuenta instanceof Credito) {
@@ -54,9 +67,9 @@ public class EscritorDatos {
                         bw.write(String.join("|",
                                 credito.getNumeroCuenta(),
                                 "CREDITO",
-                                String.valueOf(credito.getSaldo()),
+                                String.format("%.2f", credito.getSaldo()),
                                 String.valueOf(credito.getNip()),
-                                String.valueOf(credito.getLimiteEstablecido())));
+                                String.format("%.2f", credito.getLimiteEstablecido())));
                         bw.newLine();
                     }
 
@@ -66,7 +79,7 @@ public class EscritorDatos {
                         bw.newLine();
                         bw.write(String.join("|",
                                 mov.getTipoOperacion().name(),
-                                String.valueOf(mov.getMonto()),
+                                String.format("%.2f", mov.getMonto()),
                                 mov.getFechaHora(),
                                 mov.getCuentaOrigen() != null ? mov.getCuentaOrigen().getNumeroCuenta() : "",
                                 mov.getCuentaDestino() != null ? mov.getCuentaDestino().getNumeroCuenta() : "",
@@ -74,7 +87,8 @@ public class EscritorDatos {
                         bw.newLine();
                     }
                 }
-                // Salto de línea extra entre clientes para mantener formato legible como en el txt original
+
+                // Salto de línea extra entre clientes para mayor legibilidad
                 if (i < clientes.size() - 1) {
                     bw.newLine();
                 }
