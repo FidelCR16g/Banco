@@ -5,6 +5,7 @@ public class LectorDatos {
 
     public static List<Cliente> cargarClientesDesdeArchivo(String ruta) {
         List<Cliente> clientes = new ArrayList<>();
+        List<String[]> movimientosTemporales = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
             String linea;
@@ -43,34 +44,49 @@ public class LectorDatos {
 
                 } else if (linea.equals("MOVIMIENTO")) {
                     String[] datos = br.readLine().split("\\|");
+                    movimientosTemporales.add(datos);
+                }
+            }
 
-                    Movimientos.TipoOperacion tipoOp = Movimientos.TipoOperacion.valueOf(datos[0]);
-                    double monto = Double.parseDouble(datos[1]);
-                    String fecha = datos[2];
-                    String numCuentaOrigen = datos[3];
-                    String numCuentaDestino = datos[4];
-                    String concepto = datos[5];
+            // Segunda pasada: procesar movimientos
+            for (String[] datos : movimientosTemporales) {
+                Movimientos.TipoOperacion tipoOp = Movimientos.TipoOperacion.valueOf(datos[0]);
+                double monto = Double.parseDouble(datos[1]);
+                String fecha = datos[2];
+                String numCuentaOrigen = datos[3];
+                String numCuentaDestino = datos[4];
+                String concepto = datos[5];
 
-                    Cuenta cuentaOrigen = buscarCuenta(clientes, numCuentaOrigen);
-                    Cuenta cuentaDestino = numCuentaDestino.isEmpty() ? null : buscarCuenta(clientes, numCuentaDestino);
+                Cuenta cuentaOrigen = buscarCuenta(clientes, numCuentaOrigen);
+                Cuenta cuentaDestino = numCuentaDestino.isEmpty() ? null : buscarCuenta(clientes, numCuentaDestino);
 
-                    Movimientos movimientos = new Movimientos(tipoOp, monto, fecha, cuentaOrigen, cuentaDestino, concepto);
+                Movimientos movimientos = new Movimientos(tipoOp, monto, fecha, cuentaOrigen, cuentaDestino, concepto);
 
-                    if (tipoOp == Movimientos.TipoOperacion.TRANSFERIR) {
-                        movimientos.transferir();
-                    } else {
-                        if (cuentaOrigen != null) {
-                            if (tipoOp == Movimientos.TipoOperacion.DEPOSITAR) {
-                                cuentaOrigen.aumentarSaldo(monto);
-                            } else if (tipoOp == Movimientos.TipoOperacion.RETIRAR) {
-                                if (!cuentaOrigen.disminuirSaldo(monto)) {
-                                    System.out.println("Saldo insuficiente para retirar.");
-                                    continue;
-                                }
-                            }
+                if (tipoOp == Movimientos.TipoOperacion.TRANSFERIR) {
+                    if (cuentaOrigen != null && cuentaDestino != null) {
+                        if (cuentaOrigen.disminuirSaldo(monto)) {
+                            cuentaDestino.aumentarSaldo(monto);
                             cuentaOrigen.getMovimientos().add(movimientos);
+                            cuentaDestino.getMovimientos().add(movimientos);
                             movimientos.procesarTicket();
+                        } else {
+                            System.out.println("Saldo insuficiente para transferir de " + cuentaOrigen.getNumeroCuenta());
                         }
+                    } else {
+                        System.out.println("Cuenta origen o destino no encontrada para transferencia.");
+                    }
+                } else {
+                    if (cuentaOrigen != null) {
+                        if (tipoOp == Movimientos.TipoOperacion.DEPOSITAR) {
+                            cuentaOrigen.aumentarSaldo(monto);
+                        } else if (tipoOp == Movimientos.TipoOperacion.RETIRAR) {
+                            if (!cuentaOrigen.disminuirSaldo(monto)) {
+                                System.out.println("Saldo insuficiente para retirar.");
+                                continue;
+                            }
+                        }
+                        cuentaOrigen.getMovimientos().add(movimientos);
+                        movimientos.procesarTicket();
                     }
                 }
             }

@@ -22,14 +22,22 @@ public class Ticket {
 
         switch (movimientos.getTipoOperacion()) {
             case TRANSFERIR:
-                sb.append("\nCuenta origen: ").append(movimientos.getCuentaOrigen().getNumeroCuenta());
-                sb.append("\nCuenta destino: ").append(movimientos.getCuentaDestino().getNumeroCuenta());
+                sb.append("\nCuenta origen: ")
+                        .append(movimientos.getCuentaOrigen() != null ? movimientos.getCuentaOrigen().getNumeroCuenta() : "N/A");
+                sb.append("\nCuenta destino: ")
+                        .append(movimientos.getCuentaDestino() != null ? movimientos.getCuentaDestino().getNumeroCuenta() : "N/A");
                 break;
             case DEPOSITAR:
-                sb.append("\nCuenta destino: ").append(movimientos.getCuentaDestino().getNumeroCuenta());
+                sb.append("\nCuenta destino: ")
+                        .append(movimientos.getCuentaDestino() != null
+                                ? movimientos.getCuentaDestino().getNumeroCuenta()
+                                : movimientos.getCuentaOrigen() != null
+                                ? movimientos.getCuentaOrigen().getNumeroCuenta()
+                                : "N/A");
                 break;
             case RETIRAR:
-                sb.append("\nCuenta: ").append(movimientos.getCuentaOrigen().getNumeroCuenta());
+                sb.append("\nCuenta: ")
+                        .append(movimientos.getCuentaOrigen() != null ? movimientos.getCuentaOrigen().getNumeroCuenta() : "N/A");
                 break;
         }
 
