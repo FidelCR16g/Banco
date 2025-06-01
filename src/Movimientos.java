@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movimientos {
@@ -48,6 +49,18 @@ public class Movimientos {
     public String getConcepto() {
         return concepto;
     }
+
+    public static Cuenta buscarCuenta(String numeroCuenta, List<Cliente> clientes) {
+        for (Cliente cliente : clientes) {
+            for (Cuenta cuenta : cliente.getCuentas()) {
+                if (cuenta.getNumeroCuenta().equals(numeroCuenta)) {
+                    return cuenta;
+                }
+            }
+        }
+        return null;
+    }
+
 
     public void procesarTicket() {
         Ticket ticket = new Ticket(this.fechaHora, this);
