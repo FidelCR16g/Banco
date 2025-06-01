@@ -3,25 +3,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
-/**
+/*
  * Clase principal que ejecuta el programa del sistema bancario.
  * Permite la autenticación de clientes, selección y gestión de diferentes tipos de cuentas bancarias.
  */
 public class Main {
 
-    /**
-     * Objeto Scanner para leer entradas del usuario.
+    /*
+    Objeto Scanner para leer entradas del usuario.
      */
     private static final Scanner entrada = new Scanner(System.in);
 
-    /**
-     * Método principal que inicia la ejecución del programa.
+    /*
+     * Metodo principal que inicia la ejecución del programa.
      * Carga los clientes desde un archivo, valida sesión de usuario y muestra el menú principal.
      *
      * @param args Argumentos de línea de comando (no usados).
      */
     public static void main(String[] args) {
-        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("datos.txt");
+        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("resources/datos.txt");
 
         int intentosRestantes = 4;
         boolean sesionExitosa = false;
@@ -50,13 +50,13 @@ public class Main {
 
         if (sesionExitosa) {
             mostrarMenuPrincipal(clienteActual, clientes);
-            EscritorDatos.guardarClientesEnArchivo("datos.txt", clientes);
+            EscritorDatos.guardarClientesEnArchivo("resources/datos.txt", clientes);
         } else {
             System.out.println("Has alcanzado el número máximo de intentos.");
         }
     }
 
-    /**
+    /*
      * Muestra el menú principal para que el cliente seleccione una cuenta y acceda a sus opciones.
      *
      * @param clienteActual Cliente que ha iniciado sesión exitosamente.
@@ -107,7 +107,7 @@ public class Main {
         } while (true);
     }
 
-    /**
+    /*
      * Muestra el menú de operaciones disponibles para una cuenta de tipo Inversión.
      *
      * @param cuenta Cuenta de tipo Inversion a operar.
@@ -160,11 +160,11 @@ public class Main {
         } while (opcion != 7);
     }
 
-    /**
+    /*
      * Muestra el menú de operaciones para una cuenta de nómina.
      * Permite consultar saldo, mostrar salario, retiros, depósitos, transferencias y movimientos.
      *
-     * @param cuenta Cuenta de tipo Nomina.
+     * @param Cuenta cuenta de tipo Nomina.
      * @param clientes Lista de clientes para buscar cuentas destino en transferencias.
      */
     private static void menuNomina(Nomina cuenta, List<Cliente> clientes) {
@@ -242,7 +242,7 @@ public class Main {
         } while (opcion != 7);
     }
 
-    /**
+    /*
      * Muestra el menú de operaciones para una cuenta de crédito.
      * Permite consultar saldo, mostrar límite de crédito y mostrar datos completos.
      *

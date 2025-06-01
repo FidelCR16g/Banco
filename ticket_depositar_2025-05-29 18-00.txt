@@ -1,9 +1,0 @@
-
-**************************************
-*** COMPROBANTE ***
-Tipo de operación: DEPOSITAR
-Fecha y hora: 2025-05-29 18:00
-Monto: $1200.0
-Cuenta destino: 22345
-Concepto: Pago bono
-**************************************

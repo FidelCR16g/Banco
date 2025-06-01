@@ -142,7 +142,7 @@ public abstract class Cuenta {
             String fechaHora = new Date().toString();
 
             while (true) {
-                System.out.println("Ingresa el monto a retirar: ");
+                System.out.print("Ingresa el monto a retirar: ");
                 double monto = scanner.nextDouble();
 
                 if (monto < 0) {
@@ -183,13 +183,11 @@ public abstract class Cuenta {
             String fechaHora = new Date().toString();
 
             while (true) {
-                System.out.println("Ingresa el monto a depositar: ");
+                System.out.print("Ingresa el monto a depositar: ");
                 double monto = scanner.nextDouble();
 
                 if (monto < 0) {
                     System.out.println("El monto a depositar debe ser una cantidad positiva");
-                } else if (saldo < monto) {
-                    System.out.println("Saldo insuficiente. Tu saldo es: " + getSaldo());
                 } else {
                     saldo += monto;
                     Movimientos deposito = new Movimientos(

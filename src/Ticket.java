@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -68,12 +69,20 @@ public class Ticket {
      * El nombre del archivo se forma con el tipo de operación y la fecha-hora.
      */
     public void guardarTicket() {
-        // Reemplaza caracteres no válidos para nombre de archivo
         String fechaArchivo = fechaGeneracionTicket.replace(":", "-").replace(" ", "_");
         String nombreArchivo = "ticket_" + movimientos.getTipoOperacion().toString().toLowerCase() + "_" + fechaArchivo + ".txt";
-        try (FileWriter writer = new FileWriter(nombreArchivo)) {
+
+        // Ruta relativa a la carpeta del proyecto
+        File carpetaTickets = new File("resources/tickets");
+        if (!carpetaTickets.exists()) {
+            carpetaTickets.mkdirs();
+        }
+
+        File archivo = new File(carpetaTickets, nombreArchivo);
+
+        try (FileWriter writer = new FileWriter(archivo)) {
             writer.write(generarTicket());
-            System.out.println("Ticket guardado en " + nombreArchivo);
+            System.out.println("Ticket guardado en " + archivo.getPath());
         } catch (IOException e) {
             System.out.println("Error al guardar el ticket: " + e.getMessage());
         }
