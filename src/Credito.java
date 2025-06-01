@@ -16,8 +16,16 @@ public class Credito extends Cuenta {
     public Credito() {}
 
     //Constructor con parámetros
-    public Credito(String numeroCuenta, double saldo, int nip, Cliente cliente, double limiteEstablecido) {
+    public Credito(String numeroCuenta, double saldo, int nip, double limiteEstablecido, Cliente cliente) {
         super(numeroCuenta, TipoCuenta.CREDITO, saldo, nip, cliente);
+        this.limiteEstablecido = limiteEstablecido;
+    }
+
+    public double getLimiteEstablecido(){
+        return limiteEstablecido;
+    }
+
+    public void setLimiteEstablecido(double limiteEstablecido){
         this.limiteEstablecido = limiteEstablecido;
     }
 
@@ -35,10 +43,10 @@ public class Credito extends Cuenta {
     @Override
     public void mostrarCuenta() {
         System.out.println("Cuenta de tipo CREDITO");
-        System.out.println("Número de cuenta: " + numeroCuenta);
-        System.out.println("Saldo actual: $" + saldo);
+        System.out.println("Número de cuenta: " + getNumeroCuenta());
+        System.out.println("Saldo actual: $" + getSaldo());
         System.out.println("Saldo a deber: ");
-        System.out.println("Límite establecido: $" + limiteEstablecido);
+        System.out.println("Límite establecido: $" + getLimiteEstablecido());
         System.out.println("Cliente: " + getCliente().getNombreC());
     }
 

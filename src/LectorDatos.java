@@ -15,6 +15,7 @@ public class LectorDatos {
                     String[] datos = br.readLine().split("\\|");
                     clienteActual = new Cliente(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5]);
                     clientes.add(clienteActual);
+
                 } else if (linea.equals("CUENTA")) {
                     String[] datos = br.readLine().split("\\|");
                     String tipo = datos[1];
@@ -22,16 +23,17 @@ public class LectorDatos {
 
                     switch (tipo) {
                         case "INVERSION":
-                            cuenta = new Inversion(datos[1], Double.parseDouble(datos[2]), Integer.parseInt(datos[3]),
+                            cuenta = new Inversion(datos[0], Double.parseDouble(datos[2]), Integer.parseInt(datos[3]),
                                     Double.parseDouble(datos[4]), Integer.parseInt(datos[5]), clienteActual);
                             break;
                         case "NOMINA":
-                            cuenta = new Nomina(datos[1], Double.parseDouble(datos[2]),
-                                    Integer.parseInt(datos[3]), clienteActual, datos[4], datos[5], Double.parseDouble(datos[6]));
+                            cuenta = new Nomina(datos[0], Double.parseDouble(datos[2]), Integer.parseInt(datos[3]),
+                                    datos[4], datos[5], Double.parseDouble(datos[6]), clienteActual
+                            );
                             break;
                         case "CREDITO":
-                            cuenta = new Credito(datos[1], Double.parseDouble(datos[2]),
-                                    Integer.parseInt(datos[3]), clienteActual, Double.parseDouble(datos[4]));
+                            cuenta = new Credito(datos[0], Double.parseDouble(datos[2]),
+                                    Integer.parseInt(datos[3]), Double.parseDouble(datos[4]), clienteActual);
                             break;
                     }
 
@@ -52,20 +54,22 @@ public class LectorDatos {
                     Cuenta cuentaOrigen = buscarCuenta(clientes, numCuentaOrigen);
                     Cuenta cuentaDestino = numCuentaDestino.isEmpty() ? null : buscarCuenta(clientes, numCuentaDestino);
 
-                    Ticket ticket = new Ticket("Operación " + tipoOp + " realizada en " + fecha);
-
-                    Movimientos mov = new Movimientos(tipoOp, monto, fecha, cuentaOrigen, cuentaDestino, concepto, ticket);
+                    Movimientos movimientos = new Movimientos(tipoOp, monto, fecha, cuentaOrigen, cuentaDestino, concepto);
 
                     if (tipoOp == Movimientos.TipoOperacion.TRANSFERIR) {
-                        mov.transferir();
+                        movimientos.transferir();
                     } else {
                         if (cuentaOrigen != null) {
                             if (tipoOp == Movimientos.TipoOperacion.DEPOSITAR) {
-                                cuentaOrigen.saldo += monto;
-                            } else if (tipoOp == Movimientos.TipoOperacion.RETIRAR && cuentaOrigen.saldo >= monto) {
-                                cuentaOrigen.saldo -= monto;
+                                cuentaOrigen.aumentarSaldo(monto);
+                            } else if (tipoOp == Movimientos.TipoOperacion.RETIRAR) {
+                                if (!cuentaOrigen.disminuirSaldo(monto)) {
+                                    System.out.println("Saldo insuficiente para retirar.");
+                                    continue;
+                                }
                             }
-                            cuentaOrigen.getMovimientos().add(mov);
+                            cuentaOrigen.getMovimientos().add(movimientos);
+                            movimientos.procesarTicket();
                         }
                     }
                 }

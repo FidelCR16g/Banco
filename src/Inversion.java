@@ -23,9 +23,41 @@ public class Inversion extends Cuenta {
         this.mesesInvertidos = mesesInvertidos;
     }
 
+    public double getGanancia(){
+        return ganancia;
+    }
+
+    public double getRendimientoMensual(){
+        return rendimientoMensual;
+    }
+
+    public double getSaldoInicial(){
+        return saldoInicial;
+    }
+
+    public int getMesesInvertidos(){
+        return mesesInvertidos;
+    }
+
+    public void setGanancia(double ganancia){
+        this.ganancia = ganancia;
+    }
+
+    public void setRendimientoMensual(double rendimientoMensual){
+        this.rendimientoMensual = rendimientoMensual;
+    }
+
+    public void setSaldoInicial(double saldoInicial){
+        this.saldoInicial = saldoInicial;
+    }
+
+    public void setMesesInvertidos(int mesesInvertidos){
+        this.mesesInvertidos = mesesInvertidos;
+    }
+
     //Métodos propios
     public double calcularGanancia() {
-        double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
+        double saldoFinal = getSaldoInicial() * Math.pow(1 + (getRendimientoMensual() / 100), getMesesInvertidos());
         //La función Math.pow(a, b) eleva un número 'a' a la potencia 'b'
         return saldoFinal - saldoInicial;
     }
@@ -34,19 +66,19 @@ public class Inversion extends Cuenta {
         double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
         ganancia = saldoFinal - saldoInicial;
 
-        System.out.printf("Saldo inicial: $%.2f\n", saldoInicial);
-        System.out.println("Meses invertidos: " + mesesInvertidos);
+        System.out.printf("Saldo inicial: $%.2f\n", getSaldoInicial());
+        System.out.println("Meses invertidos: " + getMesesInvertidos());
         System.out.printf("Saldo final estimado: $%.2f\n", saldoFinal);
-        System.out.printf("Ganancia: $%.2f\n", ganancia);
+        System.out.printf("Ganancia: $%.2f\n", getGanancia());
 
     }
 
-    //Método sobreescrito
+    //Metodo sobreescrito
     @Override
     public void mostrarCuenta() {
         System.out.println("Cuenta de tipo INVERSION");
-        System.out.println("Número de cuenta: " + numeroCuenta);
-        System.out.println("Saldo actual: $" + saldo);
+        System.out.println("Número de cuenta: " + getNumeroCuenta());
+        System.out.println("Saldo actual: $" + getSaldo());
         System.out.println("Cliente: " + (getCliente() != null ? getCliente().getNombreC() : "No hay un cliente."));
         mostrarGanancia();
     }

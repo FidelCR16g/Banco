@@ -9,8 +9,12 @@ public class EscritorDatos {
                 // Escribir datos del cliente
                 bw.write("CLIENTE");
                 bw.newLine();
-                bw.write(String.join("|", cliente.getNombreC(),
-                        cliente.getCorreoC(), cliente.getTelefonoC(), cliente.getUsuario(), cliente.getContrasenia()));
+                bw.write(String.join("|",
+                        cliente.getNombreC(),
+                        cliente.getCorreoC(),
+                        cliente.getTelefonoC(),
+                        cliente.getUsuario(),
+                        cliente.getContrasenia()));
                 bw.newLine();
 
                 // Escribir cuentas del cliente
@@ -20,23 +24,32 @@ public class EscritorDatos {
 
                     if (cuenta instanceof Inversion) {
                         Inversion inversion = (Inversion) cuenta;
-                        bw.write(String.join("|", inversion.getNumeroCuenta(), "INVERSION",
-                                String.valueOf(inversion.getSaldo()), String.valueOf(inversion.getNip()),
-                                String.valueOf(inversion.getInteres()), String.valueOf(inversion.getPlazo())));
+                        bw.write(String.join("|",
+                                inversion.getNumeroCuenta(), "INVERSION",
+                                String.valueOf(inversion.getSaldo()),
+                                String.valueOf(inversion.getNip()),
+                                String.valueOf(inversion.getRendimientoMensual()),
+                                String.valueOf(inversion.getMesesInvertidos())));
                         bw.newLine();
 
                     } else if (cuenta instanceof Nomina) {
-                        Nomina nom = (Nomina) cuenta;
-                        bw.write(String.join("|", nom.getNumeroCuenta(), "NOMINA",
-                                String.valueOf(nom.getSaldo()), String.valueOf(nom.getNip()),
-                                nom.getEmpresa(), nom.getFechaDeposito(), String.valueOf(nom.getMontoDeposito())));
+                        Nomina nomina = (Nomina) cuenta;
+                        bw.write(String.join("|",
+                                nomina.getNumeroCuenta(), "NOMINA",
+                                String.valueOf(nomina.getSaldo()),
+                                String.valueOf(nomina.getNip()),
+                                nomina.getEmpleadorDeposito(),
+                                nomina.getLugarTrabajo(),
+                                String.valueOf(nomina.getSalario())));
                         bw.newLine();
 
                     } else if (cuenta instanceof Credito) {
-                        Credito cre = (Credito) cuenta;
-                        bw.write(String.join("|", cre.getNumeroCuenta(), "CREDITO",
-                                String.valueOf(cre.getSaldo()), String.valueOf(cre.getNip()),
-                                String.valueOf(cre.getLimiteCredito())));
+                        Credito credito = (Credito) cuenta;
+                        bw.write(String.join("|",
+                                credito.getNumeroCuenta(), "CREDITO",
+                                String.valueOf(credito.getSaldo()),
+                                String.valueOf(credito.getNip()),
+                                String.valueOf(credito.getLimiteEstablecido())));
                         bw.newLine();
                     }
 
@@ -45,9 +58,9 @@ public class EscritorDatos {
                         bw.write("MOVIMIENTO");
                         bw.newLine();
                         bw.write(String.join("|",
-                                mov.getTipo().name(),
+                                mov.getTipoOperacion().name(),
                                 String.valueOf(mov.getMonto()),
-                                mov.getFecha(),
+                                mov.getFechaHora(),
                                 mov.getCuentaOrigen() != null ? mov.getCuentaOrigen().getNumeroCuenta() : "",
                                 mov.getCuentaDestino() != null ? mov.getCuentaDestino().getNumeroCuenta() : "",
                                 mov.getConcepto()));

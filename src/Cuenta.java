@@ -28,28 +28,64 @@ public abstract class Cuenta {
         this.movimientos = new ArrayList<>();
     }
 
-    protected int getNip(){
-        return nip;
-    }
-
     public String getNumeroCuenta() {
         return numeroCuenta;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public TipoCuenta getTipoCuenta(){
+        return tipoCuenta;
     }
 
     public double getSaldo() {
         return saldo;
     }
 
+    protected int getNip(){
+        return nip;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
     public List<Movimientos> getMovimientos() {
         return movimientos;
     }
 
+    public void setNumeroCuenta(String numeroCuenta){
+        this.numeroCuenta = numeroCuenta;
+    }
+
+    public void setTipoCuenta(TipoCuenta tipoCuenta){
+        this.tipoCuenta = tipoCuenta;
+    }
+
+    public void setSaldo(double saldo){
+        this.saldo = saldo;
+    }
+
+    public void setNip(int nip){
+        this.nip = nip;
+    }
+
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public void setMovimientos(List<Movimientos> movimientos){
+        this.movimientos = movimientos;
+    }
+
+    public void aumentarSaldo(double monto) {
+        this.saldo += monto;
+    }
+
+    public boolean disminuirSaldo(double monto) {
+        if (this.saldo >= monto) {
+            this.saldo -= monto;
+            return true;
+        }
+        return false;
     }
 
     public void retirar() {
@@ -67,7 +103,7 @@ public abstract class Cuenta {
                 } else if (monto > 9000) {
                     System.out.println("No puedes retirar una cantidad mayor a 9000");
                 } else if (saldo < monto) {
-                    System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
+                    System.out.println("Saldo insuficiente. Tu saldo es: " + getSaldo());
                 } else {
                     saldo -= monto;
                     Movimientos retiro = new Movimientos(
@@ -102,7 +138,7 @@ public abstract class Cuenta {
                 if (monto < 0) {
                     System.out.println("El monto a depositar debe ser una cantidad positiva");
                 } else if (saldo < monto) {
-                    System.out.println("Saldo insuficiente. Tu saldo es: " + saldo);
+                    System.out.println("Saldo insuficiente. Tu saldo es: " + getSaldo());
                 } else {
                     saldo += monto;
                     Movimientos deposito = new Movimientos(
@@ -160,7 +196,7 @@ public abstract class Cuenta {
 
 
     public void consultarSaldo() {
-        System.out.println("Tu saldo actual es: " + saldo);
+        System.out.println("Tu saldo actual es: " + getSaldo());
     }
 
     public abstract void mostrarCuenta();
