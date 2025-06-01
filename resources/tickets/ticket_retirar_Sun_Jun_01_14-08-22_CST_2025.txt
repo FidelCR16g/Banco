@@ -1,0 +1,9 @@
+
+**************************************
+*** COMPROBANTE ***
+Tipo de operación: RETIRAR
+Fecha y hora: Sun Jun 01 14:08:22 CST 2025
+Monto: $200.00
+Cuenta: 12346
+Concepto: Retiro en efectivo
+**************************************

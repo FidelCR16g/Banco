@@ -1,0 +1,9 @@
+
+**************************************
+*** COMPROBANTE ***
+Tipo de operación: RETIRAR
+Fecha y hora: 2025-05-29 16:00
+Monto: $500.00
+Cuenta: 12346
+Concepto: Compra supermercado
+**************************************
