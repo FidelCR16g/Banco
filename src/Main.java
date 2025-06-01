@@ -6,7 +6,7 @@ public class Main {
     private static final Scanner entrada = new Scanner(System.in);
 
     public static void main(String[] args) {
-        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("C:\\Users\\JOANA XCARET\\Desktop\\Xcaret Uni\\4to Semestre\\Diseño y POO\\Banco\\src\\datos.txt");
+        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("C:\\Users\\fave6\\OneDrive\\Documentos\\Fidel Escuela\\Codigos POO\\Banco\\src\\datos.txt");
 
         int intentosRestantes = 4;
         boolean sesionExitosa = false;
