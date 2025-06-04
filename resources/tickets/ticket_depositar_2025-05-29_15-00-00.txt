@@ -1,0 +1,9 @@
+
+**************************************
+*** COMPROBANTE ***
+Tipo de operación: DEPOSITAR
+Fecha y hora: 2025-05-29 15:00:00
+Monto: $1000.00
+Cuenta destino: 5698
+Concepto: Ahorro mensual
+**************************************

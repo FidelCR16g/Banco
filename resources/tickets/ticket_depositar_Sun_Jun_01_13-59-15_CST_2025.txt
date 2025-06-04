@@ -1,0 +1,9 @@
+
+**************************************
+*** COMPROBANTE ***
+Tipo de operación: DEPOSITAR
+Fecha y hora: Sun Jun 01 13:59:15 CST 2025
+Monto: $10000.00
+Cuenta destino: 12346
+Concepto: Depósito en efectivo
+**************************************

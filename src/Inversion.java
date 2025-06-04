@@ -1,3 +1,6 @@
+import java.util.Date;
+import java.util.Scanner;
+
 /**
  * <p>Clase Inversion que hereda de Cuenta y representa una cuenta de inversión.</p>
  *
@@ -35,35 +38,37 @@ public class Inversion extends Cuenta {
         this.mesesInvertidos = mesesInvertidos;
     }
 
-    public double getGanancia(){
+    // Getters
+    public double getGanancia() {
         return ganancia;
     }
 
-    public double getRendimientoMensual(){
+    public double getRendimientoMensual() {
         return rendimientoMensual;
     }
 
-    public double getSaldoInicial(){
+    public double getSaldoInicial() {
         return saldoInicial;
     }
 
-    public int getMesesInvertidos(){
+    public int getMesesInvertidos() {
         return mesesInvertidos;
     }
 
-    public void setGanancia(double ganancia){
+    //Setters
+    public void setGanancia(double ganancia) {
         this.ganancia = ganancia;
     }
 
-    public void setRendimientoMensual(double rendimientoMensual){
+    public void setRendimientoMensual(double rendimientoMensual) {
         this.rendimientoMensual = rendimientoMensual;
     }
 
-    public void setSaldoInicial(double saldoInicial){
+    public void setSaldoInicial(double saldoInicial) {
         this.saldoInicial = saldoInicial;
     }
 
-    public void setMesesInvertidos(int mesesInvertidos){
+    public void setMesesInvertidos(int mesesInvertidos) {
         this.mesesInvertidos = mesesInvertidos;
     }
 
@@ -75,8 +80,16 @@ public class Inversion extends Cuenta {
      */
     public double calcularGanancia() {
         double saldoFinal = getSaldoInicial() * Math.pow(1 + (getRendimientoMensual() / 100), getMesesInvertidos());
-        // La función Math.pow(a, b) eleva un número 'a' a la potencia 'b'
-        return saldoFinal - saldoInicial;
+        this.ganancia = saldoFinal - saldoInicial;
+        return ganancia;
+    }
+
+    public void mostrarInversion(){
+        System.out.println("--- Detalles de Inversión ---");
+        System.out.println("Saldo inicial: $" + getSaldoInicial());
+        System.out.println("Rendimiento mensual: %" + getRendimientoMensual());
+        System.out.println("Meses invertidos: " + getMesesInvertidos());
+        System.out.println("Saldo actual: $" + getSaldo());
     }
 
     /**
@@ -84,25 +97,113 @@ public class Inversion extends Cuenta {
      * saldo final estimado y la ganancia calculada.
      */
     public void mostrarGanancia() {
-        double saldoFinal = saldoInicial * Math.pow(1 + (rendimientoMensual / 100), mesesInvertidos);
-        ganancia = saldoFinal - saldoInicial;
+        calcularGanancia();
+        double saldoFinal = saldoInicial + ganancia;
 
-        System.out.printf("Saldo inicial: $%.2f\n", getSaldoInicial());
+        System.out.println("=== Detalles de Inversión ===");
+        System.out.println("Saldo inicial: $" + getSaldoInicial());
+        System.out.println("Rendimiento mensual: %" + getRendimientoMensual());
         System.out.println("Meses invertidos: " + getMesesInvertidos());
-        System.out.printf("Saldo final estimado: $%.2f\n", saldoFinal);
-        System.out.printf("Ganancia: $%.2f\n", getGanancia());
+        System.out.println("Saldo final estimado: $" + saldoFinal);
+        System.out.println("Ganancia estimada: $" + getGanancia());
+        System.out.println("============================");
+    }
+
+    /**
+     * Permite retirar dinero de la cuenta de inversión después de validar el NIP.
+     * Verifica que el monto sea positivo y que haya saldo suficiente.
+     * Registra el movimiento si es exitoso.
+     */
+    @Override
+    public void retirar() {
+        if (nipValido()) {
+            Scanner scanner = new Scanner(System.in);
+            String fechaHora = new Date().toString();
+
+            while (true) {
+                System.out.print("Ingresa el monto a retirar: ");
+                double monto = scanner.nextDouble();
+
+                if (monto <= 0) {
+                    System.out.println("El monto debe ser mayor a cero");
+                } else if (monto > getSaldo()) {
+                    System.out.println("Fondos insuficientes. Saldo disponible: $" + getSaldo());
+                } else {
+                    disminuirSaldo(monto);
+                    Movimientos retiro = new Movimientos(
+                            Movimientos.TipoOperacion.RETIRAR,
+                            monto,
+                            fechaHora,
+                            this,
+                            null,
+                            "Retiro de cuenta de inversión"
+                    );
+
+                    getMovimientos().add(retiro);
+                    retiro.procesarTicket();
+                    System.out.println("Retiro exitoso. Nuevo saldo: $" + getSaldo());
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Acceso denegado. NIP incorrecto.");
+        }
+    }
+
+    /**
+     * Permite depositar dinero en la cuenta de inversión después de validar el NIP.
+     * Verifica que el monto sea positivo. Registra el movimiento si es exitoso.
+     * Actualiza el saldo inicial si no hay meses invertidos aún.
+     */
+    @Override
+    public void depositar() {
+        if (nipValido()) {
+            Scanner scanner = new Scanner(System.in);
+            String fechaHora = new Date().toString();
+
+            while (true) {
+                System.out.print("Ingresa el monto a depositar: ");
+                double monto = scanner.nextDouble();
+
+                if (monto <= 0) {
+                    System.out.println("El monto debe ser mayor a cero");
+                } else {
+                    aumentarSaldo(monto);
+
+                    if (mesesInvertidos == 0) {
+                        saldoInicial += monto;
+                    }
+
+                    Movimientos deposito = new Movimientos(
+                            Movimientos.TipoOperacion.DEPOSITAR,
+                            monto,
+                            fechaHora,
+                            null,
+                            this,
+                            "Depósito a cuenta de inversión"
+                    );
+
+                    getMovimientos().add(deposito);
+                    deposito.procesarTicket();
+                    System.out.println("Depósito exitoso. Nuevo saldo: $" + getSaldo());
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Acceso denegado. NIP incorrecto.");
+        }
     }
 
     /**
      * Muestra información detallada de la cuenta de inversión,
-     * incluyendo tipo de cuenta, número, saldo, cliente y ganancia.
+     * incluyendo tipo de cuenta, número, saldo, cliente y detalles de la inversión.
      */
     @Override
     public void mostrarCuenta() {
-        System.out.println("Cuenta de tipo INVERSION");
+        System.out.println("Cuenta de Inversion.");
         System.out.println("Número de cuenta: " + getNumeroCuenta());
         System.out.println("Saldo actual: $" + getSaldo());
-        System.out.println("Cliente: " + (getCliente() != null ? getCliente().getNombreC() : "No hay un cliente."));
+        System.out.println("Cliente: " + (getCliente() != null ? getCliente().getNombreC() : "No asignado"));
         mostrarGanancia();
     }
 
@@ -110,7 +211,7 @@ public class Inversion extends Cuenta {
      * Muestra el tipo de cuenta: "Inversion".
      */
     @Override
-    public void mostrarTipoCuenta(){
-        System.out.println("Inversion");
+    public void mostrarTipoCuenta() {
+        System.out.println("Inversión");
     }
 }
