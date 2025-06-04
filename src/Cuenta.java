@@ -132,85 +132,6 @@ public abstract class Cuenta {
     }
 
     /**
-     * Permite retirar dinero de la cuenta después de validar el NIP.
-     * Verifica que el monto sea positivo, no supere $9000 y que haya saldo suficiente.
-     * Registra el movimiento si es exitoso.
-     */
-    public void retirar() {
-        if (nipValido()) {
-            Scanner scanner = new Scanner(System.in);
-            String fechaHora = new Date().toString();
-
-            while (true) {
-                System.out.print("Ingresa el monto a retirar: ");
-                double monto = scanner.nextDouble();
-
-                if (monto < 0) {
-                    System.out.println("El monto a retirar debe ser una cantidad positiva");
-                } else if (monto > 9000) {
-                    System.out.println("No puedes retirar una cantidad mayor a 9000");
-                } else if (saldo < monto) {
-                    System.out.println("Saldo insuficiente. Tu saldo es: " + getSaldo());
-                } else {
-                    saldo -= monto;
-                    Movimientos retiro = new Movimientos(
-                            Movimientos.TipoOperacion.RETIRAR,
-                            monto,
-                            fechaHora,
-                            this,
-                            null,
-                            "Retiro en efectivo"
-                    );
-
-                    this.getMovimientos().add(retiro);
-                    retiro.procesarTicket();
-                    System.out.println("Retiro exitoso");
-                    break;
-                }
-            }
-        } else {
-            System.out.println(" ");
-        }
-    }
-
-    /**
-     * Permite depositar dinero en la cuenta después de validar el NIP.
-     * Verifica que el monto sea positivo. Registra el movimiento si es exitoso.
-     */
-    public void depositar() {
-        if (nipValido()) {
-            Scanner scanner = new Scanner(System.in);
-            String fechaHora = new Date().toString();
-
-            while (true) {
-                System.out.print("Ingresa el monto a depositar: ");
-                double monto = scanner.nextDouble();
-
-                if (monto < 0) {
-                    System.out.println("El monto a depositar debe ser una cantidad positiva");
-                } else {
-                    saldo += monto;
-                    Movimientos deposito = new Movimientos(
-                            Movimientos.TipoOperacion.DEPOSITAR,
-                            monto,
-                            fechaHora,
-                            null,
-                            this,
-                            "Depósito en efectivo"
-                    );
-
-                    this.getMovimientos().add(deposito);
-                    deposito.procesarTicket();
-                    System.out.println("Depósito exitoso");
-                    break;
-                }
-            }
-        } else {
-            System.out.println(" ");
-        }
-    }
-
-    /**
      * Registra un movimiento manualmente en la lista de movimientos.
      *
      * @param tipo tipo de operación (RETIRAR o DEPOSITAR)
@@ -261,6 +182,19 @@ public abstract class Cuenta {
     public void consultarSaldo() {
         System.out.println("Tu saldo actual es: " + getSaldo());
     }
+
+    /**
+     * Permite retirar dinero de la cuenta después de validar el NIP.
+     * Verifica que el monto sea positivo, no supere $9000 y que haya saldo suficiente.
+     * Registra el movimiento si es exitoso.
+     */
+    public abstract void retirar();
+
+    /**
+     * Permite depositar dinero en la cuenta después de validar el NIP.
+     * Verifica que el monto sea positivo. Registra el movimiento si es exitoso.
+     */
+    public abstract void depositar();
 
     /**
      * Método abstracto que debe mostrar la información específica de la cuenta.
