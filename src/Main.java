@@ -151,12 +151,24 @@ public class Main {
                     cuenta.mostrarInversion();
                     break;
                 case 3:
-                    cuenta.depositar();
-                    guardarDatos();
+                    if (cuenta.nipValido()) {
+                        System.out.print("Ingresa el monto a depositar: ");
+                        double monto = entrada.nextDouble();
+                        cuenta.depositar(monto);
+                        guardarDatos();
+                    } else {
+                        System.out.println("Acceso denegado. NIP incorrecto.");
+                    }
                     break;
                 case 4:
-                    cuenta.retirar();
-                    guardarDatos();
+                    if (cuenta.nipValido()) {
+                        System.out.print("Ingresa el monto a retirar: ");
+                        double monto = entrada.nextDouble();
+                        cuenta.retirar(monto);
+                        guardarDatos();
+                    } else {
+                        System.out.println("Acceso denegado. NIP incorrecto.");
+                    }
                     break;
                 case 5:
                     cuenta.mostrarGanancia();
@@ -213,12 +225,24 @@ public class Main {
                     cuenta.mostrarSalario();
                     break;
                 case 3:
-                    cuenta.retirar();
-                    guardarDatos();
+                    if (cuenta.nipValido()) {
+                        System.out.print("Ingresa el monto a retirar: ");
+                        double monto = entrada.nextDouble();
+                        cuenta.retirar(monto);
+                        guardarDatos();
+                    } else {
+                        System.out.println("Acceso denegado. NIP incorrecto.");
+                    }
                     break;
                 case 4:
-                    cuenta.depositar();
-                    guardarDatos();
+                    if (cuenta.nipValido()) {
+                        System.out.print("Ingresa el monto a depositar: ");
+                        double monto = entrada.nextDouble();
+                        cuenta.depositar(monto);
+                        guardarDatos();
+                    } else {
+                        System.out.println("Acceso denegado. NIP incorrecto.");
+                    }
                     break;
                 case 5:
                     System.out.print("Ingrese el número de cuenta destino: ");
@@ -303,12 +327,25 @@ public class Main {
                     System.out.println("Crédito disponible: $" + (cuenta.getLimiteEstablecido() - cuenta.getSaldo()));
                     break;
                 case 4:
-                    cuenta.retirar();
-                    guardarDatos();
+                    if (cuenta.nipValido()) {
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.print("Ingresa el monto a retirar: ");
+                        double monto = scanner.nextDouble();
+                        cuenta.retirar(monto);
+                        guardarDatos();
+                    } else {
+                        System.out.println("Acceso denegado. NIP incorrecto.");
+                    }
                     break;
                 case 5:
-                    cuenta.depositar();
-                    guardarDatos();
+                    if (cuenta.nipValido()) {
+                        System.out.print("Ingresa el monto a depositar: ");
+                        double monto = entrada.nextDouble();
+                        cuenta.depositar(monto);
+                        guardarDatos();
+                    } else {
+                        System.out.println("Acceso denegado. NIP incorrecto.");
+                    }
                     break;
                 case 6:
                     Movimientos verMovimientos = new Movimientos();

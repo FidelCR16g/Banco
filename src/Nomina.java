@@ -1,5 +1,4 @@
 import java.util.Date;
-import java.util.Scanner;
 
 /**
  * <p>Clase Nomina que hereda de Cuenta y representa una cuenta de nómina.</p>
@@ -75,41 +74,31 @@ public class Nomina extends Cuenta {
      * Verifica que el monto sea positivo, no supere $9000 y que haya saldo suficiente.
      * Registra el movimiento si es exitoso.
      */
+
     @Override
-    public void retirar() {
-        if (nipValido()) {
-            Scanner scanner = new Scanner(System.in);
-            String fechaHora = new Date().toString();
+    public void retirar(double monto) {
+        String fechaHora = new Date().toString();
 
-            while (true) {
-                System.out.print("Ingresa el monto a retirar: ");
-                double monto = scanner.nextDouble();
+        if (monto < 0) {
+            System.out.println("El monto a retirar debe ser una cantidad positiva");
+        } else if (monto > 9000) {
+            System.out.println("No puedes retirar una cantidad mayor a 9000");
+        } else if (saldo < monto) {
+            System.out.println("Saldo insuficiente. Tu saldo es: " + getSaldo());
+        }else{
+            saldo -= monto;
+            Movimientos retiro = new Movimientos(
+                    Movimientos.TipoOperacion.RETIRAR,
+                    monto,
+                    fechaHora,
+                    this,
+                    null,
+                    "Retiro en efectivo"
+            );
 
-                if (monto < 0) {
-                    System.out.println("El monto a retirar debe ser una cantidad positiva");
-                } else if (monto > 9000) {
-                    System.out.println("No puedes retirar una cantidad mayor a 9000");
-                } else if (saldo < monto) {
-                    System.out.println("Saldo insuficiente. Tu saldo es: " + getSaldo());
-                } else {
-                    saldo -= monto;
-                    Movimientos retiro = new Movimientos(
-                            Movimientos.TipoOperacion.RETIRAR,
-                            monto,
-                            fechaHora,
-                            this,
-                            null,
-                            "Retiro en efectivo"
-                    );
-
-                    this.getMovimientos().add(retiro);
-                    retiro.procesarTicket();
-                    System.out.println("Retiro exitoso");
-                    break;
-                }
-            }
-        } else {
-            System.out.println(" ");
+            this.getMovimientos().add(retiro);
+            retiro.procesarTicket();
+            System.out.println("Retiro exitoso");
         }
     }
 
@@ -118,36 +107,25 @@ public class Nomina extends Cuenta {
      * Verifica que el monto sea positivo. Registra el movimiento si es exitoso.
      */
     @Override
-    public void depositar() {
-        if (nipValido()) {
-            Scanner scanner = new Scanner(System.in);
-            String fechaHora = new Date().toString();
+    public void depositar(double monto) {
+        String fechaHora = new Date().toString();
 
-            while (true) {
-                System.out.print("Ingresa el monto a depositar: ");
-                double monto = scanner.nextDouble();
-
-                if (monto < 0) {
-                    System.out.println("El monto a depositar debe ser una cantidad positiva");
-                } else {
-                    saldo += monto;
-                    Movimientos deposito = new Movimientos(
-                            Movimientos.TipoOperacion.DEPOSITAR,
-                            monto,
-                            fechaHora,
-                            null,
-                            this,
-                            "Depósito en efectivo"
-                    );
-
-                    this.getMovimientos().add(deposito);
-                    deposito.procesarTicket();
-                    System.out.println("Depósito exitoso");
-                    break;
-                }
-            }
+        if (monto < 0) {
+            System.out.println("El monto a depositar debe ser una cantidad positiva");
         } else {
-            System.out.println(" ");
+            saldo += monto;
+            Movimientos deposito = new Movimientos(
+                    Movimientos.TipoOperacion.DEPOSITAR,
+                    monto,
+                    fechaHora,
+                    null,
+                    this,
+                    "Depósito en efectivo"
+            );
+
+            this.getMovimientos().add(deposito);
+            deposito.procesarTicket();
+            System.out.println("Depósito exitoso");
         }
     }
 
@@ -173,4 +151,3 @@ public class Nomina extends Cuenta {
         System.out.println("Nomina");
     }
 }
-

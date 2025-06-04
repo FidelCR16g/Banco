@@ -188,13 +188,13 @@ public abstract class Cuenta {
      * Verifica que el monto sea positivo, no supere $9000 y que haya saldo suficiente.
      * Registra el movimiento si es exitoso.
      */
-    public abstract void retirar();
+    public abstract void retirar(double monto);
 
     /**
      * Permite depositar dinero en la cuenta después de validar el NIP.
      * Verifica que el monto sea positivo. Registra el movimiento si es exitoso.
      */
-    public abstract void depositar();
+    public abstract void depositar(double monto);
 
     /**
      * Método abstracto que debe mostrar la información específica de la cuenta.
