@@ -5,6 +5,6 @@ Tipo de operación: TRANSFERIR
 Fecha y hora: 2025-06-01 02:12:31
 Monto: $200.00
 Cuenta origen: 22345
-Cuenta destino: 12346
+Cuenta destino: 2658
 Concepto: Internet
 **************************************

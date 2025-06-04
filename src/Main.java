@@ -3,25 +3,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
-/**
+/*
  * Clase principal que ejecuta el programa del sistema bancario.
  * Permite la autenticación de clientes, selección y gestión de diferentes tipos de cuentas bancarias.
  */
 public class Main {
 
-    /**
-     * Objeto Scanner para leer entradas del usuario.
+    /*
+    Objeto Scanner para leer entradas del usuario.
      */
-    private static final Scanner entrada = new Scanner(System.in);
 
-    /**
-     * Método principal que inicia la ejecución del programa.
+    private static final Scanner entrada = new Scanner(System.in);
+    private static final String ARCHIVO_DATOS = "resources/datos.txt";
+    private static List<Cliente> clientes;
+
+    /*
+     * Metodo principal que inicia la ejecución del programa.
      * Carga los clientes desde un archivo, valida sesión de usuario y muestra el menú principal.
      *
      * @param args Argumentos de línea de comando (no usados).
      */
     public static void main(String[] args) {
-        List<Cliente> clientes = LectorDatos.cargarClientesDesdeArchivo("resources/datos.txt");
+        clientes = LectorDatos.cargarClientesDesdeArchivo(ARCHIVO_DATOS);
 
         int intentosRestantes = 4;
         boolean sesionExitosa = false;
@@ -50,13 +53,17 @@ public class Main {
 
         if (sesionExitosa) {
             mostrarMenuPrincipal(clienteActual, clientes);
-            EscritorDatos.guardarClientesEnArchivo("resources/datos.txt", clientes);
+            guardarDatos();
         } else {
             System.out.println("Has alcanzado el número máximo de intentos.");
         }
     }
 
-    /**
+    private static void guardarDatos() {
+        EscritorDatos.guardarClientesEnArchivo(ARCHIVO_DATOS, clientes);
+    }
+
+    /*
      * Muestra el menú principal para que el cliente seleccione una cuenta y acceda a sus opciones.
      *
      * @param clienteActual Cliente que ha iniciado sesión exitosamente.
@@ -107,22 +114,25 @@ public class Main {
         } while (true);
     }
 
-    /**
+    /*
      * Muestra el menú de operaciones disponibles para una cuenta de tipo Inversión.
      *
      * @param cuenta Cuenta de tipo Inversion a operar.
      */
     private static void menuInversion(Inversion cuenta) {
+        Scanner entrada = new Scanner(System.in);
         int opcion;
+
         do {
-            System.out.println("\n--- MENÚ INVERSIÓN ---");
+            System.out.println("\n=== MENÚ DE INVERSIÓN ===");
             System.out.println("1. Consultar saldo actual");
-            System.out.println("2. Mostrar saldo inicial");
-            System.out.println("3. Mostrar rendimiento mensual (%)");
-            System.out.println("4. Mostrar meses invertidos");
+            System.out.println("2. Mostrar detalles de inversión");
+            System.out.println("3. Realizar depósito");
+            System.out.println("4. Realizar retiro");
             System.out.println("5. Calcular y mostrar ganancia estimada");
-            System.out.println("6. Mostrar todos los datos de la cuenta");
-            System.out.println("7. Regresar");
+            System.out.println("6. Mostrar todos los movimientos");
+            System.out.println("7. Mostrar todos los datos de la cuenta");
+            System.out.println("8. Regresar");
             System.out.print("Seleccione una opción: ");
 
             while (!entrada.hasNextInt()) {
@@ -138,33 +148,40 @@ public class Main {
                     cuenta.consultarSaldo();
                     break;
                 case 2:
-                    System.out.printf("Saldo inicial: $%.2f\n", cuenta.getSaldoInicial());
+                    cuenta.mostrarInversion();
                     break;
                 case 3:
-                    System.out.printf("Rendimiento mensual: %.2f%%\n", cuenta.getRendimientoMensual());
+                    cuenta.depositar();
+                    guardarDatos();
                     break;
                 case 4:
-                    System.out.println("Meses invertidos: " + cuenta.getMesesInvertidos());
+                    cuenta.retirar();
+                    guardarDatos();
                     break;
                 case 5:
                     cuenta.mostrarGanancia();
                     break;
                 case 6:
-                    cuenta.mostrarCuenta();
+                    Movimientos verMovimientos = new Movimientos();
+                    verMovimientos.generarHistorial(cuenta);
                     break;
                 case 7:
+                    cuenta.mostrarCuenta();
                     break;
+                case 8:
+                    break;
+
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 7);
+        } while (opcion != 8);
     }
 
-    /**
+    /*
      * Muestra el menú de operaciones para una cuenta de nómina.
      * Permite consultar saldo, mostrar salario, retiros, depósitos, transferencias y movimientos.
      *
-     * @param cuenta Cuenta de tipo Nomina.
+     * @param Cuenta cuenta de tipo Nomina.
      * @param clientes Lista de clientes para buscar cuentas destino en transferencias.
      */
     private static void menuNomina(Nomina cuenta, List<Cliente> clientes) {
@@ -197,9 +214,11 @@ public class Main {
                     break;
                 case 3:
                     cuenta.retirar();
+                    guardarDatos();
                     break;
                 case 4:
                     cuenta.depositar();
+                    guardarDatos();
                     break;
                 case 5:
                     System.out.print("Ingrese el número de cuenta destino: ");
@@ -229,6 +248,7 @@ public class Main {
                     } else {
                         System.out.println("Cuenta destino no encontrada.");
                     }
+                    guardarDatos();
                     break;
                 case 6:
                     Movimientos verMovimientos = new Movimientos();
@@ -242,21 +262,33 @@ public class Main {
         } while (opcion != 7);
     }
 
-    /**
+    /*
      * Muestra el menú de operaciones para una cuenta de crédito.
      * Permite consultar saldo, mostrar límite de crédito y mostrar datos completos.
      *
      * @param cuenta Cuenta de tipo Credito.
      */
     private static void menuCredito(Credito cuenta) {
+        Scanner entrada = new Scanner(System.in);
         int opcion;
+
         do {
-            System.out.println("--- MENÚ CRÉDITO ---");
-            System.out.println("1. Consultar saldo");
-            System.out.println("2. Mostrar límite de crédito");
-            System.out.println("3. Mostrar datos completos");
-            System.out.println("4. Regresar");
+            System.out.println("\n=== MENÚ CREDITO ===");
+            System.out.println("1. Consultar saldo actual");
+            System.out.println("2. Consultar límite de crédito");
+            System.out.println("3. Consultar crédito disponible");
+            System.out.println("4. Realizar compra/retiro");
+            System.out.println("5. Realizar pago/depósito");
+            System.out.println("6. Mostrar historial de movimientos");
+            System.out.println("7. Mostrar datos completos de la cuenta");
+            System.out.println("8. Regresar");
             System.out.print("Seleccione una opción: ");
+
+            while (!entrada.hasNextInt()) {
+                System.out.println("Ingrese un número válido.");
+                entrada.next();
+            }
+
             opcion = entrada.nextInt();
             entrada.nextLine();
 
@@ -268,14 +300,29 @@ public class Main {
                     cuenta.mostrarLimite();
                     break;
                 case 3:
-                    cuenta.mostrarCuenta();
+                    System.out.println("Crédito disponible: $" + (cuenta.getLimiteEstablecido() - cuenta.getSaldo()));
                     break;
                 case 4:
+                    cuenta.retirar();
+                    guardarDatos();
+                    break;
+                case 5:
+                    cuenta.depositar();
+                    guardarDatos();
+                    break;
+                case 6:
+                    Movimientos verMovimientos = new Movimientos();
+                    verMovimientos.generarHistorial(cuenta);
+                    break;
+                case 7:
+                    cuenta.mostrarCuenta();
+                    break;
+                case 8:
+                    System.out.println("Regresando al menú principal...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
             }
-
-        } while (opcion != 4);
+        } while (opcion != 8);
     }
 }

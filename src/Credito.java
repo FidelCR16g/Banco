@@ -1,3 +1,6 @@
+import java.util.Date;
+import java.util.Scanner;
+
 /**
  * Clase que representa una cuenta de tipo Crédito.
  * Hereda de la clase Cuenta e incluye un límite de crédito establecido.
@@ -28,21 +31,13 @@ public class Credito extends Cuenta {
         this.limiteEstablecido = limiteEstablecido;
     }
 
-    /**
-     * Obtiene el límite de crédito establecido para esta cuenta.
-     *
-     * @return El límite de crédito.
-     */
-    public double getLimiteEstablecido(){
+    //Getters
+    public double getLimiteEstablecido() {
         return limiteEstablecido;
     }
 
-    /**
-     * Establece un nuevo límite de crédito para esta cuenta.
-     *
-     * @param limiteEstablecido Nuevo límite de crédito.
-     */
-    public void setLimiteEstablecido(double limiteEstablecido){
+    //Setters
+    public void setLimiteEstablecido(double limiteEstablecido) {
         this.limiteEstablecido = limiteEstablecido;
     }
 
@@ -50,7 +45,93 @@ public class Credito extends Cuenta {
      * Muestra por consola el límite de crédito establecido.
      */
     public void mostrarLimite() {
-        System.out.println("Límite de crédito establecido: $" + limiteEstablecido);
+        System.out.println("Límite de crédito establecido: $" + getLimiteEstablecido());
+    }
+
+    /**
+     * Permite retirar dinero de la cuenta después de validar el NIP.
+     * Verifica que el monto sea positivo, no supere el límite disponible
+     * y que haya saldo suficiente. Registra el movimiento si es exitoso.
+     */
+    @Override
+    public void retirar() {
+        if (nipValido()) {
+            Scanner scanner = new Scanner(System.in);
+            String fechaHora = new Date().toString();
+
+            while (true) {
+                System.out.print("Ingresa el monto a retirar: ");
+                double monto = scanner.nextDouble();
+
+                if (monto < 0) {
+                    System.out.println("El monto a retirar debe ser una cantidad positiva");
+                } else if (monto > limiteEstablecido) {
+                    System.out.println("El monto excede tu límite de crédito disponible");
+                    System.out.println("Límite disponible: $" + (limiteEstablecido - saldo));
+                } else if (saldo + monto > limiteEstablecido) {
+                    System.out.println("El retiro excedería tu límite de crédito");
+                    System.out.println("Monto máximo que puedes retirar: $" + (limiteEstablecido - saldo));
+                } else {
+                    saldo += monto;
+                    Movimientos retiro = new Movimientos(
+                            Movimientos.TipoOperacion.RETIRAR,
+                            monto,
+                            fechaHora,
+                            this,
+                            null,
+                            "Retiro de efectivo con tarjeta de crédito"
+                    );
+
+                    this.getMovimientos().add(retiro);
+                    retiro.procesarTicket();
+                    System.out.println("Retiro exitoso");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Acceso denegado. NIP incorrecto.");
+        }
+    }
+
+    /**
+     * Permite depositar dinero en la cuenta después de validar el NIP.
+     * Verifica que el monto sea positivo. Registra el movimiento si es exitoso.
+     * En cuentas de crédito, los depósitos reducen el saldo (disminuyen la deuda).
+     */
+    @Override
+    public void depositar() {
+        if (nipValido()) {
+            Scanner scanner = new Scanner(System.in);
+            String fechaHora = new Date().toString();
+
+            while (true) {
+                System.out.print("Ingresa el monto a depositar: ");
+                double monto = scanner.nextDouble();
+
+                if (monto < 0) {
+                    System.out.println("El monto a depositar debe ser una cantidad positiva");
+                } else {
+                    if (saldo > 0) {
+                        saldo = Math.max(0, saldo - monto);
+                    }
+                    Movimientos deposito = new Movimientos(
+                            Movimientos.TipoOperacion.DEPOSITAR,
+                            monto,
+                            fechaHora,
+                            null,
+                            this,
+                            "Depósito a tarjeta de crédito (pago)"
+                    );
+
+                    this.getMovimientos().add(deposito);
+                    deposito.procesarTicket();
+                    System.out.println("Depósito exitoso");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Acceso denegado. NIP incorrecto.");
+        }
     }
 
     /**
@@ -60,7 +141,7 @@ public class Credito extends Cuenta {
      */
     @Override
     public void mostrarCuenta() {
-        System.out.println("Cuenta de tipo CREDITO");
+        System.out.println("Cuenta de credito.");
         System.out.println("Número de cuenta: " + getNumeroCuenta());
         System.out.println("Saldo actual: $" + getSaldo());
         System.out.println("Límite establecido: $" + getLimiteEstablecido());
