@@ -1,5 +1,4 @@
 import java.util.Date;
-import java.util.Scanner;
 
 /**
  * <p>Clase Inversion que hereda de Cuenta y representa una cuenta de inversión.</p>
@@ -115,38 +114,26 @@ public class Inversion extends Cuenta {
      * Registra el movimiento si es exitoso.
      */
     @Override
-    public void retirar() {
-        if (nipValido()) {
-            Scanner scanner = new Scanner(System.in);
-            String fechaHora = new Date().toString();
-
-            while (true) {
-                System.out.print("Ingresa el monto a retirar: ");
-                double monto = scanner.nextDouble();
-
-                if (monto <= 0) {
-                    System.out.println("El monto debe ser mayor a cero");
-                } else if (monto > getSaldo()) {
-                    System.out.println("Fondos insuficientes. Saldo disponible: $" + getSaldo());
-                } else {
-                    disminuirSaldo(monto);
-                    Movimientos retiro = new Movimientos(
-                            Movimientos.TipoOperacion.RETIRAR,
-                            monto,
-                            fechaHora,
-                            this,
-                            null,
-                            "Retiro de cuenta de inversión"
-                    );
-
-                    getMovimientos().add(retiro);
-                    retiro.procesarTicket();
-                    System.out.println("Retiro exitoso. Nuevo saldo: $" + getSaldo());
-                    break;
-                }
-            }
+    public void retirar(double monto) {
+        String fechaHora = new Date().toString();
+        if (monto <= 0) {
+            System.out.println("El monto debe ser mayor a cero");
+        } else if (monto > getSaldo()) {
+            System.out.println("Fondos insuficientes. Saldo disponible: $" + getSaldo());
         } else {
-            System.out.println("Acceso denegado. NIP incorrecto.");
+            disminuirSaldo(monto);
+            Movimientos retiro = new Movimientos(
+                    Movimientos.TipoOperacion.RETIRAR,
+                    monto,
+                    fechaHora,
+                    this,
+                    null,
+                    "Retiro de cuenta de inversión"
+            );
+
+            getMovimientos().add(retiro);
+            retiro.procesarTicket();
+            System.out.println("Retiro exitoso. Nuevo saldo: $" + getSaldo());
         }
     }
 
@@ -156,41 +143,28 @@ public class Inversion extends Cuenta {
      * Actualiza el saldo inicial si no hay meses invertidos aún.
      */
     @Override
-    public void depositar() {
-        if (nipValido()) {
-            Scanner scanner = new Scanner(System.in);
-            String fechaHora = new Date().toString();
-
-            while (true) {
-                System.out.print("Ingresa el monto a depositar: ");
-                double monto = scanner.nextDouble();
-
-                if (monto <= 0) {
-                    System.out.println("El monto debe ser mayor a cero");
-                } else {
-                    aumentarSaldo(monto);
-
-                    if (mesesInvertidos == 0) {
-                        saldoInicial += monto;
-                    }
-
-                    Movimientos deposito = new Movimientos(
-                            Movimientos.TipoOperacion.DEPOSITAR,
-                            monto,
-                            fechaHora,
-                            null,
-                            this,
-                            "Depósito a cuenta de inversión"
-                    );
-
-                    getMovimientos().add(deposito);
-                    deposito.procesarTicket();
-                    System.out.println("Depósito exitoso. Nuevo saldo: $" + getSaldo());
-                    break;
-                }
-            }
+    public void depositar(double monto) {
+        String fechaHora = new Date().toString();
+        if (monto <= 0) {
+            System.out.println("El monto debe ser mayor a cero");
         } else {
-            System.out.println("Acceso denegado. NIP incorrecto.");
+            aumentarSaldo(monto);
+            if (mesesInvertidos == 0) {
+                saldoInicial += monto;
+            }
+
+            Movimientos deposito = new Movimientos(
+                    Movimientos.TipoOperacion.DEPOSITAR,
+                    monto,
+                    fechaHora,
+                    null,
+                    this,
+                    "Depósito a cuenta de inversión"
+            );
+
+            getMovimientos().add(deposito);
+            deposito.procesarTicket();
+            System.out.println("Depósito exitoso. Nuevo saldo: $" + getSaldo());
         }
     }
 
