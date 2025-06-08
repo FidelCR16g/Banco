@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * las subclases para mostrar detalles específicos de cada tipo de cuenta.</p>
  *
  * */
-public abstract class Cuenta {
+public abstract class Cuenta implements Serializable {
 
     /**
      * Enumeración que representa los tipos posibles de cuentas.
@@ -32,6 +33,7 @@ public abstract class Cuenta {
     protected int nip;
     private Cliente cliente;
     private List<Movimientos> movimientos;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor vacío de la clase Cuenta.
@@ -181,6 +183,26 @@ public abstract class Cuenta {
      */
     public void consultarSaldo() {
         System.out.println("Tu saldo actual es: " + getSaldo());
+    }
+
+    public static void guardarClientes(String archivo, List<Cliente> clientes) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+            oos.writeObject(clientes);
+            System.out.println("Datos guardados exitosamente en " + archivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Cliente> cargarClientes(String archivo) {
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream(archivo))) {
+            return (List<Cliente>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al cargar: " + e.getMessage());
+            return new ArrayList<>(); // Retorna lista vacía si hay error
+        }
     }
 
     /**

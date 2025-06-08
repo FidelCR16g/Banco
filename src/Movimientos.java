@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * Contiene información como el tipo de operación, monto, fecha y hora,
  * cuentas involucradas y un concepto descriptivo.</p>
  */
-public class Movimientos {
+public class Movimientos implements Serializable {
 
     /**
      * Enum que define los tipos de operación que se pueden realizar.
@@ -24,6 +25,7 @@ public class Movimientos {
     private Cuenta cuentaOrigen;
     private Cuenta cuentaDestino;
     private String concepto;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor por defecto.

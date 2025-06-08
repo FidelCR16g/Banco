@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * <p>Proporciona métodos para validar sesión, mostrar cuentas, asignar cuentas
  * y mostrar los datos del cliente.</p>
  */
-public class Cliente {
+public class Cliente implements Serializable {
     private String nombreC;
     private String ine;
     private String telefonoC;
@@ -18,6 +19,7 @@ public class Cliente {
     private String usuario;
     private String contrasenia;
     private List<Cuenta> cuentas;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor por defecto.

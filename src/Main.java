@@ -14,7 +14,7 @@ public class Main {
      */
 
     private static final Scanner entrada = new Scanner(System.in);
-    private static final String ARCHIVO_DATOS = "resources/datos.txt";
+    private static final String ARCHIVO_DATOS = "datos.ser";
     private static List<Cliente> clientes;
 
     /**
@@ -24,7 +24,7 @@ public class Main {
      * @param args Argumentos de línea de comando (no usados).
      */
     public static void main(String[] args) {
-        clientes = LectorDatos.cargarClientesDesdeArchivo(ARCHIVO_DATOS);
+        clientes = Cuenta.cargarClientes(ARCHIVO_DATOS);
 
         int intentosRestantes = 4;
         boolean sesionExitosa = false;
@@ -53,7 +53,7 @@ public class Main {
 
         if (sesionExitosa) {
             mostrarMenuPrincipal(clienteActual, clientes);
-            guardarDatos();
+            Cuenta.guardarClientes(ARCHIVO_DATOS, clientes);
         } else {
             System.out.println("Has alcanzado el número máximo de intentos.");
         }

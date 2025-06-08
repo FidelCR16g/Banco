@@ -14,6 +14,7 @@ public class Inversion extends Cuenta {
     private double rendimientoMensual; // en porcentaje (2.5 significa 2.5%)
     private double saldoInicial;
     private int mesesInvertidos;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor vacío.

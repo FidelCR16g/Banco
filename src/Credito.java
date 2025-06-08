@@ -10,6 +10,7 @@ public class Credito extends Cuenta {
      * Límite máximo de crédito asignado a la cuenta.
      */
     private double limiteEstablecido;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor vacío.

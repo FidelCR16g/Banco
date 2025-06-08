@@ -12,6 +12,7 @@ public class Nomina extends Cuenta {
     private String empleadorDeposito;
     private String lugarTrabajo;
     private double salario;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor vacío.
